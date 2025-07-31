@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5">
+    <!-- Breadcrumb -->
+    <nav style="--bs-breadcrumb-divider: '>'; font-size: 14px;" aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white px-0">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li class="breadcrumb-item active text-muted" aria-current="page">About</li>
+        </ol>
+    </nav>
+
+    <!-- Our Story -->
+    <div class="row align-items-center mt-4">
+        <div class="col-md-6">
+            <h1 class="fw-bold text-black mb-4">Our Story</h1>
+            <p class="about-us-desc">Launched in 2025, TechNova has rapidly become Canada’s premier online shopping marketplace. Backed by a comprehensive suite of tailored marketing, data and service solutions, we empower our community of over 10,500 independent sellers and 300 leading brands to reach millions of customers nationwide.</p>
+            <p class="about-us-desc">TechNova now has over one million electronic gadgets—and we add more every day. From smartphones and laptops to headphones and smart home devices, you’ll find great deals and easy shopping anywhere in Canada.</p>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="~/images/about-image.png" class="img-fluid rounded" alt="Our Story Image" />
+        </div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="row text-center about-us-div">
+        <div class="col-md-3 mb-4">
+            <div class="statistics-section-style">
+                <div class="about-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <h5 class="fw-bold mt-2">10.5k</h5>
+                <p class="mb-0">Sellers active our site</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="statistics-section-style">
+                <div class="about-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h5 class="fw-bold mt-2">33k</h5>
+                <p class="mb-0">Monthly Product Sale</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="statistics-section-style">
+                <div class="about-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h5 class="fw-bold mt-2">45.5k</h5>
+                <p class="mb-0">Customer active in our site</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="statistics-section-style">
+                <div class="about-icon">
+                    <i class="fas fa-sack-dollar"></i>
+                </div>
+                <h5 class="fw-bold mt-2">25k</h5>
+                <p class="mb-0">Annual gross sale in our site</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Section -->
+    <div class="mb-5 pb-4">
+        <div class="text-center mb-4">
+            <h1 class="fw-bold text-black">Meet Our Team</h1>
+        </div>
+        <div class="team-section-grid text-center">
+            <div class="team-card">
+                <img src="~/images/team1.png" alt="team image" class="team-image-style" />
+                <h4 class="fw-bold pt-3 mb-0">Kishan Kumar Das</h4>
+                <small class="fw-normal">Founder & Chairman</small>
+                <div class="mt-1 pb-3">
+                    <a href="#" class="me-2 text-dark fs-4"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-2 text-dark fs-4"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-dark fs-4"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="~/images/team2.png" alt="team image" class="team-image-style"/>
+                <h4 class="fw-bold pt-3 mb-0">Emma Watson</h4>
+                <small>Managing Director</small>
+                <div class="mt-1 pb-3">
+                    <a href="#" class="me-2 text-dark fs-4"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-2 text-dark fs-4"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-dark fs-4"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="team-card">
+                <img src="~/images/team3.png" alt="team image" class="team-image-style" />
+                <h4 class="fw-bold pt-3 mb-0">Will Smith</h4>
+                <small>Product Designer</small>
+                <div class="mt-1 pb-3">
+                    <a href="#" class="me-2 text-dark fs-4"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-2 text-dark fs-4"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-dark fs-4"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <div class="container row text-center mt-5 mb-2 p-5">
+        <div class="col-md-4">
+            <div class="d-flex flex-column align-items-center">
+                <div class="bg-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 70px; height: 70px;">
+                    <i class="fas fa-truck-fast fa-2x text-white"></i>
+                </div>
+                <h6 class="mt-3 fw-bold">FREE AND FAST DELIVERY</h6>
+                <p class="text-muted">Free delivery for all orders over $140</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex flex-column align-items-center">
+                <div class="bg-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 70px; height: 70px;">
+                    <i class="fas fa-headphones fa-2x text-white"></i>
+                </div>
+                <h6 class="mt-3 fw-bold">24/7 CUSTOMER SERVICE</h6>
+                <p class="text-muted">Friendly 24/7 customer support</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="d-flex flex-column align-items-center">
+                <div class="bg-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 70px; height: 70px;">
+                    <i class="fas fa-check-circle fa-2x text-white"></i>
+                </div>
+                <h6 class="mt-3 fw-bold">MONEY BACK GUARANTEE</h6>
+                <p class="text-muted">We return money within 30 days</p>
+            </div>
+        </div>
+    </div>
+</div>

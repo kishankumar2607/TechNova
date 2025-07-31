@@ -22,6 +22,8 @@
 
         a {
             text-decoration: none;
+            font-weight: 600;
+            color: #000000 !important;
         }
 
         li{
@@ -31,6 +33,7 @@
         a:hover{
             color: #DB4444 !important;
             font-weight: 600;
+            transition: all 0.3s ease-in;
         }
 
         .input-email-form{
@@ -78,7 +81,27 @@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Home")">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Contact", "Home")">Contact</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("About", "Home")">About</a></li>
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Register", "Account")">Sign Up</a></li>
+                            @{
+                                var userName = Context.Session.GetString("UserName");
+                                var firstName = !string.IsNullOrEmpty(userName) ? userName.Split(' ')[0] : null;
+                            }
+                            @if (string.IsNullOrEmpty(userName))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Register", "Account")">Sign Up</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-danger" href="#" role="button" data-bs-toggle="dropdown">
+                                        Hello, @firstName
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item fw-bold" href="@Url.Action("Logout", "Account")">Logout</a></li>
+                                    </ul>
+                                </li>
+                            }
                         </ul>
                     </div>
                     <form class="d-flex ms-4" role="search">
@@ -88,7 +111,12 @@
                     <div class="d-flex ms-3 align-items-center">
                         <a href="@Url.Action("Wishlist", "Wishlist")" class="me-3"><i class="far fa-heart fa-lg text-black"></i></a>
                         <a href="@Url.Action("Index", "Cart")" class="me-3"><i class="fas fa-shopping-cart fa-lg text-black"></i></a>
-                        <a href="@Url.Action("Login", "Account")"><i class="far fa-user fa-lg text-black"></i></a>
+                        @{
+                            var userClass = string.IsNullOrEmpty(userName) ? "d-none" : "d-block";
+                        }
+                        <a href="@Url.Action("Login", "Account")" class="@userClass">
+                            <i class="far fa-user fa-lg text-black"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -96,7 +124,7 @@
     </header>
 
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>

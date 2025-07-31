@@ -1,0 +1,42 @@
+﻿@model TechNova.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="register-div">
+    <div class="register-image-div">
+        <img src="~/images/login-image.png"
+             alt="login image"
+             class="register-image-style" />
+    </div>
+
+    <div class="register-form-div">
+        <h2 class="text-center fw-bolder mb-2">Log in to your account</h2>
+        <h5 class="text-center mb-4">Enter your details below</h5>
+
+        <form asp-action="Login" method="post" class="w-50 mx-auto">
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+            }
+
+            <div class="mb-3">
+                <label>Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label>Password</label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn button-style w-100">Login</button>
+            <div class="mt-3 text-center">
+                Don't have an account? <a href="@Url.Action("Register", "Account")" class="fw-bold">Sign up</a>
+            </div>
+        </form>
+    </div>
+</div>
