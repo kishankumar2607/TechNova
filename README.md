@@ -110,22 +110,10 @@ TechNova/
 
 ---
 
-## 🖼️ Screenshots
-
-> UI screenshots include Home, Login, Cart, Wishlist, Product Details, etc.
-
----
-
 ## 📬 Contact
 
 For any queries or support, contact:
 
 **Kishan Kumar Das**  
 📧 kishank2607@gmail.com  
-🌐 [LinkedIn](https://www.linkedin.com/in/kishank2607)  
-
----
-
-## 📃 License
-
-This project is licensed under the MIT License.
+🌐 [LinkedIn](https://www.linkedin.com/in/kishan-kumar-das/)  
