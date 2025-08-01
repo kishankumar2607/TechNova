@@ -141,3 +141,26 @@
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
+
+.contact-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 40px 35px;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 1px 13px 0 rgba(0, 0, 0, 0.09);
+}
+
+.input-div :first-child{
+    font-size: 20px;
+    padding: 12px
+}
+
+.textarea-div :first-child {
+    font-size: 20px;
+    padding: 12px
+}
