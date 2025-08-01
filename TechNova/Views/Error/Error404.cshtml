@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "404 Error";
+}
+
+<div class="container mt-5 mb-5 text-center">
+    <!-- Breadcrumb -->
+    <nav style="--bs-breadcrumb-divider: '>'; font-size: 14px;" aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white px-0">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li class="breadcrumb-item active text-muted" aria-current="page">404 Error</li>
+        </ol>
+    </nav>
+
+    <div class="pt-4 pb-5">
+        <h1 class="display-3 fw-bold mt-4 mb-3">404 Not Found</h1>
+        <p class="text-muted fs-4 mb-4">Oops! The page you are looking for does not exist.</p>
+        <a href="@Url.Action("Index", "Home")" class="btn text-white button-style px-4 py-2">Back to home page</a>
+    </div>
+</div>
