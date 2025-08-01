@@ -1,8 +1,239 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
+    var flashSales = ViewBag.FlashSales as List<Product>;
+    var bestSellers = ViewBag.BestSellers as List<Product>;
+    var explore = ViewBag.Explore as List<Product>;
+    var newArrivals = ViewBag.NewArrivals as List<Product>;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero Banner -->
+<div class="container-fluid px-0 mt-4">
+    <div class="d-flex justify-content-between align-items-center bg-black text-white px-5" style="height: 400px;">
+        <div class="hero-text ps-4">
+           <div class="d-flex align-items-center mb-3">
+                <i class="fa-brands fa-apple text-white fs-1"></i>
+                <p class="mb-0 ms-3">iPhone 14 Series</p>
+           </div>
+            <h1 class="fw-bold display-5">Up to 10%<br />off Voucher</h1>
+            <a href="#" class="btn text-white fw-bold mt-3 d-inline-flex align-items-center" style="border-bottom: 1px solid white;">
+                Shop Now <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+
+        <div class="hero-img">
+            <img src="~/images/iphone-banner-right.png" alt="iPhone" class="img-fluid" style="max-height: 350px;" />
+        </div>
+    </div>
 </div>
+
+
+
+<!-- Flash Sales -->
+<div class="container mt-5">
+    <h5 class="text-danger fw-bold">Today's</h5>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="fw-bold">Flash Sales</h3>
+        <div id="countdown" class="text-muted small"></div>
+    </div>
+
+    <div class="row">
+        @if (flashSales != null)
+        {
+            foreach (var product in flashSales)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <img src="@product.ImageURL" class="card-img-top" alt="@product.Name" />
+                        <div class="card-body">
+                            <h6 class="card-title">@product.Name</h6>
+                            <p class="text-danger fw-bold mb-0">@product.Price.ToString("C")</p>
+                            <small class="text-muted">(@product.ReviewCount reviews)</small>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="@Url.Action("All", "Products")" class="btn btn-danger">View All Products</a>
+    </div>
+</div>
+
+<!-- Browse by Category -->
+<div class="container mt-5">
+    <h4 class="fw-bold mb-3">Browse By Category</h4>
+    <div class="d-flex justify-content-between text-center">
+        <div class="flex-fill p-3 border rounded me-2">iPhone</div>
+        <div class="flex-fill p-3 border rounded me-2">Computers</div>
+        <div class="flex-fill p-3 border rounded me-2">Smartwatch</div>
+        <div class="flex-fill p-3 border rounded me-2 text-danger fw-bold bg-light">Camera</div>
+        <div class="flex-fill p-3 border rounded me-2">Headphones</div>
+        <div class="flex-fill p-3 border rounded">Gaming</div>
+    </div>
+</div>
+
+<!-- Best Selling Products -->
+<div class="container mt-5">
+    <div class="d-flex justify-content-between mb-3">
+        <h4 class="fw-bold">Best Selling Products</h4>
+        <a href="#" class="btn btn-outline-dark btn-sm">View All</a>
+    </div>
+    <div class="row">
+        @foreach (var product in bestSellers)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <img src="@product.ImageURL" class="card-img-top" alt="@product.Name" />
+                    <div class="card-body">
+                        <h6 class="card-title">@product.Name</h6>
+                        <p class="text-danger fw-bold mb-0">@product.Price.ToString("C")</p>
+                        <small class="text-muted">(@product.ReviewCount reviews)</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Promotional Banner -->
+<section class="music-banner text-white">
+    <div class="container">
+        <div class="row align-items-center ps-5">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h6 class="text-danger fw-semibold mb-3">Categories</h6>
+                <h1 class="fw-bold display-5">Enhance Your<br>Music Experience</h1>
+                <a href="#" class="btn button-style text-white mt-4 px-4 py-2 fw-semibold">Buy Now!</a>
+            </div>
+
+            <div class="col-lg-6 text-center">
+                <img src="/images/speaker-banner.png" alt="JBL Speaker" class="img-fluid banner-image" />
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Explore Our Products -->
+<div class="container mt-5">
+    <h4 class="fw-bold mb-3">Explore Our Products</h4>
+    <div class="row">
+        @foreach (var product in explore)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <img src="@product.ImageURL" class="card-img-top" alt="@product.Name" />
+                    <div class="card-body">
+                        <h6 class="card-title">@product.Name</h6>
+                        <p class="text-danger fw-bold mb-0">@product.Price.ToString("C")</p>
+                        <small class="text-muted">(@product.ReviewCount reviews)</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- New Arrival -->
+<section class="container py-5">
+    <!-- Featured Label -->
+    <div class="d-flex align-items-center mb-2">
+        <i class="fas fa-square text-danger me-2 fs-4"></i>
+        <h6 class="text-danger fw-bold mb-0">Featured</h6>
+    </div>
+
+    <!-- Title -->
+    <h2 class="fw-bold mb-4">New Arrival</h2>
+
+    <div class="row g-4">
+        <!-- Left Column: PS5 -->
+        <div class="col-lg-6">
+            <div class="featured-card tall" style="background-image: url('/images/ps5.png');">
+                <h3 class="fw-bold">PlayStation 5</h3>
+                <p class="mb-2">Black and White version of the PS5 coming out on sale.</p>
+                <a href="#">Shop Now</a>
+            </div>
+        </div>
+
+        <!-- Right Column: 3 Boxes -->
+        <div class="col-lg-6">
+            <div class="row g-4">
+                <!-- Women Collection (full width) -->
+                <div class="col-12">
+                    <div class="featured-card" style="background-image: url('/images/women.png'); min-height: 300px;">
+                        <h4 class="fw-bold">Women’s Collections</h4>
+                        <p class="mb-2">Featured woman collections that give you another vibe.</p>
+                        <a href="#">Shop Now</a>
+                    </div>
+                </div>
+
+                <!-- Two Small Boxes -->
+                <div class="col-md-6">
+                    <div class="featured-card" style="background-image: url('/images/speakers.png'); min-height: 300px;">
+                        <h5 class="fw-bold">Speakers</h5>
+                        <p class="mb-2">Amazon wireless speakers</p>
+                        <a href="#">Shop Now</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="featured-card" style="background-image: url('/images/perfume.png'); min-height: 300px;">
+                        <h5 class="fw-bold">Perfume</h5>
+                        <p class="mb-2">GUCCI INTENSE OUD EDP</p>
+                        <a href="#">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<div class="container row text-center mt-1 mb-2 p-5">
+    <div class="col-md-4">
+        <div class="d-flex flex-column align-items-center">
+            <div class="bg-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 70px; height: 70px;">
+                <i class="fas fa-truck-fast fa-2x text-white"></i>
+            </div>
+            <h6 class="mt-3 fw-bold">FREE AND FAST DELIVERY</h6>
+            <p class="text-muted">Free delivery for all orders over $140</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="d-flex flex-column align-items-center">
+            <div class="bg-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 70px; height: 70px;">
+                <i class="fas fa-headphones fa-2x text-white"></i>
+            </div>
+            <h6 class="mt-3 fw-bold">24/7 CUSTOMER SERVICE</h6>
+            <p class="text-muted">Friendly 24/7 customer support</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="d-flex flex-column align-items-center">
+            <div class="bg-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 70px; height: 70px;">
+                <i class="fas fa-check-circle fa-2x text-white"></i>
+            </div>
+            <h6 class="mt-3 fw-bold">MONEY BACK GUARANTEE</h6>
+            <p class="text-muted">We return money within 30 days</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function startCountdown(hours) {
+            const end = new Date();
+            end.setHours(end.getHours() + hours);
+            setInterval(() => {
+                const now = new Date();
+                const diff = end - now;
+                if (diff < 0) return;
+                const hrs = Math.floor(diff / 1000 / 60 / 60);
+                const mins = Math.floor((diff / 1000 / 60) % 60);
+                const secs = Math.floor((diff / 1000) % 60);
+                document.getElementById("countdown").innerText = `Ends In: ${hrs}h ${mins}m ${secs}s`;
+            }, 1000);
+        }
+        startCountdown(24);
+    </script>
+}
