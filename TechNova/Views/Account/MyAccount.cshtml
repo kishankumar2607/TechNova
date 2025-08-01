@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "My Account";
+
+    var userName = Context.Session.GetString("UserName");
+    var userEmail = Context.Session.GetString("UserEmail"); // Make sure to store this at login
+}
+<div class="container mt-5 mb-5 pb-5">
+    <!-- Breadcrumb -->
+    <nav style="--bs-breadcrumb-divider: '>'; font-size: 14px;" aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white px-0">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li class="breadcrumb-item active text-muted" aria-current="page">My Account</li>
+        </ol>
+    </nav>
+
+    <h2 class="fw-bold pt-5 mb-4">My Account</h2>
+
+    <div class="row">
+        <!-- Profile Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-user-circle fa-5x text-secondary mb-3"></i>
+                    <h5 class="fw-bold">@userName</h5>
+                    <p class="text-muted">@userEmail</p>
+                    <a href="@Url.Action("Logout", "Account")" class="btn btn-outline-danger btn-sm mt-2">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Options -->
+        <div class="col-md-8">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="border p-3 h-100">
+                        <h6 class="fw-bold mb-2">My Orders</h6>
+                        <p class="text-muted">View your past and current orders.</p>
+                        <a href="@Url.Action("Orders", "Account")" class="text-danger fw-bold">View Orders</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="border p-3 h-100">
+                        <h6 class="fw-bold mb-2">Wishlist</h6>
+                        <p class="text-muted">Check your saved items.</p>
+                        <a href="@Url.Action("Wishlist", "Wishlist")" class="text-danger fw-bold">Go to Wishlist</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="border p-3 h-100">
+                        <h6 class="fw-bold mb-2">Account Settings</h6>
+                        <p class="text-muted">Update your name, email, or password.</p>
+                        <a href="#" class="text-danger fw-bold">Manage Account</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="border p-3 h-100">
+                        <h6 class="fw-bold mb-2">Shipping Addresses</h6>
+                        <p class="text-muted">Add or modify delivery addresses.</p>
+                        <a href="#" class="text-danger fw-bold">Edit Addresses</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
