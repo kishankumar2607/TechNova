@@ -1,6 +1,54 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container mt-5 mb-5">
+    <!-- Breadcrumb -->
+    <nav style="--bs-breadcrumb-divider: '>'; font-size: 14px;" aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white px-0">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li class="breadcrumb-item active text-muted" aria-current="page">Privacy Policy</li>
+        </ol>
+    </nav>
+
+    <div class="row mt-4">
+        <div class="col-lg-10 offset-lg-1">
+            <h2 class="fw-bold mb-4">Privacy Policy</h2>
+
+            <p>At <strong>TechNova</strong>, we respect your privacy and are committed to protecting your personal information. This Privacy Policy outlines how we collect, use, and safeguard your data when you use our website.</p>
+
+            <h5 class="fw-bold mt-4">1. Information We Collect</h5>
+            <p>We may collect personal information such as your name, email address, phone number, shipping address, and payment details when you register or place an order.</p>
+
+            <h5 class="fw-bold mt-4">2. How We Use Your Information</h5>
+            <ul>
+                <li>To process transactions and fulfill orders</li>
+                <li>To send order updates and promotional emails</li>
+                <li>To improve our website and customer service</li>
+                <li>To personalize your shopping experience</li>
+            </ul>
+
+            <h5 class="fw-bold mt-4">3. Data Protection</h5>
+            <p>We implement a variety of security measures to maintain the safety of your personal information, including encryption, firewalls, and secure server access.</p>
+
+            <h5 class="fw-bold mt-4">4. Cookies</h5>
+            <p>We use cookies to understand user preferences and enhance your browsing experience. You can choose to disable cookies through your browser settings.</p>
+
+            <h5 class="fw-bold mt-4">5. Third-Party Disclosure</h5>
+            <p>We do not sell, trade, or otherwise transfer your personal data to outside parties except when necessary to provide services (e.g., shipping providers or payment gateways).</p>
+
+            <h5 class="fw-bold mt-4">6. Your Consent</h5>
+            <p>By using our website, you consent to our privacy policy.</p>
+
+            <h5 class="fw-bold mt-4">7. Updates to This Policy</h5>
+            <p>We may update this policy from time to time. Any changes will be posted on this page with an updated revision date.</p>
+
+            <h5 class="fw-bold mt-4">8. Contact Us</h5>
+            <p>If you have any questions about this Privacy Policy, you can contact us at:</p>
+            <ul>
+                <li>Email: <a href="mailto:privacy@technova.com">privacy@technova.com</a></li>
+                <li>Phone: +1 (647) 123-456</li>
+            </ul>
+        </div>
+    </div>
+</div>
