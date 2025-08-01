@@ -15,7 +15,6 @@ namespace TechNova.Controllers
             context = ctx;
         }
 
-        // GET: /Account/Login
         [HttpGet]
         public IActionResult Login()
         {
@@ -78,6 +77,15 @@ namespace TechNova.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult MyAccount()
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserName")))
+            {
+                return RedirectToAction("Login");
+            }
+            return View();
         }
     }
 }
