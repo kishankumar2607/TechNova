@@ -164,3 +164,88 @@
     font-size: 18px;
     padding: 12px
 }
+
+.featured-card {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    color: white;
+    padding: 1.5rem;
+    position: relative;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .featured-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 0;
+        border-radius: 12px;
+    }
+
+    .featured-card > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .featured-card a {
+        color: white !important;
+        font-weight: 500;
+        text-decoration: underline;
+        font-size: 14px;
+    }
+
+    .featured-card:hover {
+        transform: scale(1.01);
+        box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .featured-card.tall {
+        min-height: 625px;
+    }
+
+.music-banner {
+    margin: 4rem 0rem;
+    background-color: #000000;
+}
+
+    .music-banner h1 {
+        line-height: 1.3;
+    }
+
+    .music-banner .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .music-banner .btn-danger:hover {
+            background-color: #bb2d3b;
+        }
+
+.banner-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+@media (max-width: 767px) {
+    .featured-card {
+        min-height: 160px;
+    }
+
+        .featured-card.tall {
+            min-height: 300px;
+        }
+}
