@@ -162,7 +162,14 @@
                         <h6 class="pb-1">Account</h6>
                         <ul class="list-unstyled">
                             <li><a href="#" class="text-white">My Account</a></li>
-                            <li><a href="#" class="text-white">Login / Register</a></li>
+
+                            @if (string.IsNullOrEmpty(userName))
+                            {
+                                <li>
+                                    <a href="@Url.Action("Login", "Account")" class="text-white">Login / Register</a>
+                                </li>
+                            }
+
                             <li><a href="#" class="text-white">Cart</a></li>
                             <li><a href="#" class="text-white">Wishlist</a></li>
                             <li><a href="#" class="text-white">Shop</a></li>
@@ -173,10 +180,10 @@
                     <div class="col-md-2 mb-4">
                         <h6 class="pb-1">Quick Links</h6>
                         <ul class="list-unstyled">
-                            <li><a href="#" class="text-white">Privacy Policy</a></li>
-                            <li><a href="#" class="text-white">Terms Of Use</a></li>
-                            <li><a href="#" class="text-white">FAQ</a></li>
-                            <li><a href="#" class="text-white">Contact</a></li>
+                            <li><a href="@Url.Action("Privacy", "Home")" class="text-white">Privacy Policy</a></li>
+                            <li><a href="@Url.Action("TermsofUse", "Home")" class="text-white">Terms Of Use</a></li>
+                            <li><a href="@Url.Action("FAQ", "Home")" class="text-white">FAQ</a></li>
+                            <li><a href="@Url.Action("Contact", "Home")" class="text-white">Contact</a></li>
                         </ul>
                     </div>
 
