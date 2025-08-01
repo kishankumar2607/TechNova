@@ -6,15 +6,20 @@ namespace TechNova.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(AppDbContext ctx)
         {
-            _logger = logger;
+            context = ctx;
         }
 
         public IActionResult Index()
         {
+            ViewBag.FlashSales = context.Products.OrderBy(p => p.CreatedAt).Take(4).ToList();
+            ViewBag.BestSellers = context.Products.OrderByDescending(p => p.ReviewCount).Take(4).ToList();
+            ViewBag.Explore = context.Products.Skip(4).Take(8).ToList();
+            ViewBag.NewArrivals = context.Products.OrderByDescending(p => p.CreatedAt).Take(3).ToList();
+
             return View();
         }
 
