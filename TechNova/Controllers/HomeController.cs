@@ -15,6 +15,13 @@ namespace TechNova.Controllers
 
         public IActionResult Index()
         {
+            var role = Request.Cookies["Role"];
+            if (role == "Admin")
+            {
+                // Redirect Admins to Admin Dashboard
+                return RedirectToAction("Index", "Product", new { area = "Admin" });
+            }
+
             ViewBag.FlashSales = context.Products.OrderBy(p => p.CreatedAt).Take(4).ToList();
             ViewBag.BestSellers = context.Products.OrderByDescending(p => p.ReviewCount).Take(4).ToList();
             ViewBag.Explore = context.Products.Skip(4).Take(8).ToList();
