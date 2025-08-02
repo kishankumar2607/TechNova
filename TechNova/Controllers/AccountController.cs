@@ -36,8 +36,22 @@ namespace TechNova.Controllers
 
             if (existingUser != null)
             {
-                HttpContext.Session.SetString("UserName", existingUser.FullName);
-                HttpContext.Session.SetInt32("UserId", existingUser.UserId);
+                CookieOptions options = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(1),
+                    HttpOnly = true,
+                    Secure = true, // set to false if not using HTTPS
+                    SameSite = SameSiteMode.Strict
+                };
+
+                Response.Cookies.Append("UserName", existingUser.FullName, options);
+                Response.Cookies.Append("UserEmail", existingUser.Email, options);
+                Response.Cookies.Append("UserId", existingUser.UserId.ToString(), options);
+                Response.Cookies.Append("Role", existingUser.Role, options);
+
+                if (existingUser.Role == "Admin")
+                    return RedirectToAction("Index", "Product", new { area = "Admin" });
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -75,13 +89,16 @@ namespace TechNova.Controllers
 
         public IActionResult Logout()
         {
-            HttpContext.Session.Clear();
+            Response.Cookies.Delete("UserName");
+            Response.Cookies.Delete("UserEmail");
+            Response.Cookies.Delete("UserId");
+            Response.Cookies.Delete("Role");
             return RedirectToAction("Index", "Home");
         }
 
         public IActionResult MyAccount()
         {
-            if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserName")))
+            if (string.IsNullOrEmpty(Request.Cookies["UserName"]))
             {
                 return RedirectToAction("Login");
             }
