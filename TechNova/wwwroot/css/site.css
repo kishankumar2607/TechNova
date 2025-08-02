@@ -5,6 +5,13 @@
     box-sizing: border-box;
 }
 
+.admin-page-title {
+    color: #DB4444;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+}
+
 .register-div{
     margin: 4rem 0rem;
     display: flex;
@@ -33,7 +40,7 @@
 }
 
 .button-style {
-    color: #ffffff;
+    color: #ffffff !important;
     background-color: #DB4444;
     font-weight: 600;
     font-size: 18px;
@@ -44,6 +51,20 @@
     .button-style:hover {
         background-color: transparent;
         color: #DB4444;
+    }
+
+.button-secondry {
+    color: #ffffff;
+    background-color: #00e953;
+    font-weight: 600;
+    font-size: 18px;
+    border: 2px solid #00e953;
+    transition: all 0.3s ease-in;
+}
+
+    .button-secondry:hover {
+        background-color: transparent;
+        color: #00e953;
     }
 
 .about-us-div{
