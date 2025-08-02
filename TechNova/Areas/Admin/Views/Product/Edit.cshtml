@@ -1,0 +1,42 @@
+﻿@model TechNova.Models.Product
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    var title = ViewData["Title"] ?? "Product";
+}
+<h2>@title</h2>
+
+
+<form asp-action="@ViewContext.RouteData.Values["action"]">
+    <div class="mb-2">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-2">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-2">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label asp-for="StockQty"></label>
+        <input asp-for="StockQty" class="form-control" />
+    </div>
+
+    <div class="mb-2">
+        <label asp-for="ImageURL"></label>
+        <input asp-for="ImageURL" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
