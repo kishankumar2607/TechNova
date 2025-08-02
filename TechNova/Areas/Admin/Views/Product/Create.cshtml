@@ -1,0 +1,62 @@
+﻿@model TechNova.Models.Product
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Home"; ;
+}
+
+<div class="container py-5 px-5">
+    <h2 class="admin-page-title mb-4">Add Products</h2>
+
+    <form asp-action="@ViewContext.RouteData.Values["action"]" method="post" class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label fw-bold">Product Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Enter product name" required />
+            <span asp-validation-for="Name" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label fw-bold">Description</label>
+            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter product description" required></textarea>
+            <span asp-validation-for="Description" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label fw-bold">Original Price ($)</label>
+            <input asp-for="Price" class="form-control" required />
+            <span asp-validation-for="Price" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DiscountPercent" class="form-label fw-bold">Discount (%)</label>
+            <input asp-for="DiscountPercent" class="form-control" />
+            <span asp-validation-for="DiscountPercent" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DiscountedPrice" class="form-label fw-bold">Discounted Price ($)</label>
+            <input asp-for="DiscountedPrice" class="form-control" readonly />
+            <span asp-validation-for="DiscountedPrice" class="text-danger small"></span>
+        </div>
+
+
+        <div class="mb-3">
+            <label asp-for="StockQty" class="form-label fw-bold">Stock Quantity</label>
+            <input asp-for="StockQty" class="form-control" type="number" min="0" placeholder="e.g. 50" required />
+            <span asp-validation-for="StockQty" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="ImageURL" class="form-label fw-bold">Image URL</label>
+            <input asp-for="ImageURL" class="form-control" placeholder="https://example.com/image.jpg" required />
+            <span asp-validation-for="ImageURL" class="text-danger small"></span>
+        </div>
+
+        <button type="submit" class="btn button-secondry me-2">Save</button>
+        <a asp-action="Index" class="btn button-style">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
