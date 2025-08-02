@@ -82,13 +82,13 @@
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Contact", "Home")">Contact</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("About", "Home")">About</a></li>
                             @{
-                                var userName = Context.Session.GetString("UserName");
+                                var userName = Context.Request.Cookies["UserName"];
                                 var firstName = !string.IsNullOrEmpty(userName) ? userName.Split(' ')[0] : null;
                             }
                             @if (string.IsNullOrEmpty(userName))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" href="@Url.Action("Register", "Account")">Sign Up</a>
+                                    <a class="nav-link" href="@Url.Action("Login", "Account")">Login</a>
                                 </li>
                             }
                             else
