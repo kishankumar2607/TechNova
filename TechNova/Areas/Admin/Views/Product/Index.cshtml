@@ -1,0 +1,52 @@
+﻿@model List<TechNova.Models.Product>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Admin - Products";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary fw-bold">@ViewData["Title"]</h2>
+        <a class="btn button-style text-white" href="/Admin/Product/Create">Add Product</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle shadow-sm">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th style="width: 25%">Name</th>
+                    <th style="width: 15%">Price</th>
+                    <th style="width: 15%">Stock</th>
+                    <th style="width: 20%">Updated</th>
+                    <th style="width: 25%">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td><span class="badge bg-primary">$@item.Price</span></td>
+                        <td><span class="badge bg-secondary">@item.StockQty</span></td>
+                        <td>@item.UpdatedAt.ToString("yyyy-MM-dd")</td>
+                        <td class="text-center">
+                            <a class="btn btn-sm btn-outline-primary me-1"
+                               asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductID">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a>
+
+                            <a class="btn btn-sm btn-outline-danger"
+                               asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductID">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
