@@ -69,7 +69,7 @@
                                 Hello, @firstName
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="@Url.Action("Logout", "Account")">Logout</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Logout", "Account", new { area = "Admin" })">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
