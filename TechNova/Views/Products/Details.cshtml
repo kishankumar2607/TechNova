@@ -1,0 +1,218 @@
+﻿@model TechNova.Models.Product
+@using TechNova.Models
+
+@{
+    ViewData["Title"] = Model?.Name ?? "Product";
+    var related = ViewBag.Related as List<Product> ?? new List<Product>();
+}
+
+<div class="product-details-page">
+
+    <div class="container my-4">
+        <!-- Breadcrumb -->
+        <nav class="small text-muted mb-3">
+            <a href="@Url.Action("Index","Home")" class="text-muted text-decoration-none">Home</a>
+            <span class="mx-2">/</span>
+            <span> @Model?.Name </span>
+        </nav>
+
+        <div class="row g-4">
+            <!-- Left: Single product image -->
+            <div class="col-lg-6">
+                <div class="pd-image-wrap product-details-image-div">
+                    <img src="@Model.ImageURL" alt="@Model.Name" class="img-fluid" />
+                </div>
+            </div>
+
+            <!-- Right: Details -->
+            <div class="col-lg-6">
+                <h4 class="fw-bold mb-2">@Model.Name</h4>
+
+                <!-- Rating + reviews + stock -->
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <div class="rating">
+                        @for (var i = 1; i <= 5; i++)
+                        {
+                            if (i <= Math.Floor(Model.AvgRating))
+                            {
+                                <i class="fas fa-star text-warning"></i>
+                            }
+                            else if (i - Model.AvgRating <= 0.5m)
+                            {
+                                <i class="fas fa-star-half-alt text-warning"></i>
+                            }
+                            else
+                            {
+                                <i class="far fa-star text-warning"></i>
+                            }
+                        }
+                        <span class="text-muted small ms-2">(@Model.ReviewCount Reviews)</span>
+                    </div>
+
+                    <span class="badge bg-success-subtle text-success border border-success-subtle">In Stock</span>
+                </div>
+
+                <!-- Price -->
+                <div class="d-flex align-items-baseline gap-3 mb-2">
+                    @if (Model.DiscountPercent.HasValue && Model.DiscountPercent.Value > 0 && Model.DiscountedPrice.HasValue)
+                    {
+                        <span class="h4 fw-bold text-danger mb-0">@Model.DiscountedPrice.GetValueOrDefault().ToString("C")</span>
+                        <span class="text-muted text-decoration-line-through fw-semibold">@Model.Price.ToString("C")</span>
+                        <span class="badge bg-danger-subtle text-danger">-@Math.Round(Model.DiscountPercent.Value, 0)%</span>
+                    }
+                    else
+                    {
+                        <span class="h4 fw-bold text-danger mb-0">@Model.Price.ToString("C")</span>
+                    }
+                </div>
+
+                <!-- Short description -->
+                <p class="text-muted mb-4">@Model.Description</p>
+
+                <!-- Quantity + buttons -->
+                <div class="d-flex align-items-center flex-wrap gap-2 mb-4">
+                    <div class="qty-control d-inline-flex align-items-center">
+                        <button type="button" class="qty-btn" data-delta="-1">−</button>
+                        <input type="text" class="qty-input" value="1" aria-label="Quantity" />
+                        <button type="button" class="qty-btn" data-delta="1">+</button>
+                    </div>
+
+                    <button class="btn button-secondry px-4">Add to Cart</button>
+
+                    <a class="btn button-style px-4"
+                       href="@Url.Action("Checkout","Orders", new { id = Model.ProductID, qty = 1 })">
+                        Buy Now
+                    </a>
+
+                    <button class="btn btn-outline-secondary rounded-circle ms-2" title="Add to Wishlist">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+
+                <!-- Delivery info boxes -->
+                <div class="pd-info-box d-flex align-items-center gap-3">
+                    <i class="fas fa-truck" aria-hidden="true"></i>
+                    <div>
+                        <div class="fw-bold">Free Delivery</div>
+                        <div class="small text-muted">Enter your postal code for delivery availability</div>
+                    </div>
+                </div>
+
+                <div class="pd-info-box d-flex align-items-center gap-3 mt-2">
+                    <i class="fas fa-undo-alt" aria-hidden="true"></i>
+                    <div>
+                        <div class="fw-bold">Return Delivery</div>
+                        <div class="small text-muted">Free 30 Days Delivery Returns. Details</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Items -->
+        @if (related.Any())
+        {
+            <div class="mt-5">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-square text-danger me-2"></i>
+                    <h5 class="mb-0 fw-bold">Related Item</h5>
+                </div>
+
+                <div class="row">
+                    @foreach (var product in related)
+                    {
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100">
+                                <div class="image-div position-relative">
+                                    @if (product.DiscountPercent.HasValue && product.DiscountPercent.Value > 0)
+                                    {
+                                        <span class="badge-discount">-@Math.Round(product.DiscountPercent.Value, 0)%</span>
+                                    }
+
+                                    <a href="@Url.Action("Details", "Products", new { id = product.ProductID })">
+                                        <img src="@product.ImageURL" class="image-style" alt="@product.Name" />
+                                    </a>
+
+                                    <div class="card-actions">
+                                        <button type="button" class="icon-btn mb-1" title="Add to Wishlist" data-product-id="@product.ProductID">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                        <a class="icon-btn" title="Quick View"
+                                           href="@Url.Action("Details", "Products", new { id = product.ProductID })">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    </div>
+
+                                    <div class="add-to-cart-overlay">
+                                        <button type="button" class="add-to-cart-btn" data-product-id="@product.ProductID">Add To Cart</button>
+                                    </div>
+                                </div>
+
+                                <a href="@Url.Action("Details", "Products", new { id = product.ProductID })" class="text-decoration-none text-dark">
+                                    <div class="card-body">
+                                        <h6 class="card-title">@product.Name</h6>
+
+                                        <div class="d-flex align-items-center mb-1">
+                                            @if (product.DiscountPercent.HasValue && product.DiscountPercent.Value > 0 && product.DiscountedPrice.HasValue)
+                                            {
+                                                <p class="text-danger fw-bold mb-0">
+                                                    @product.DiscountedPrice.GetValueOrDefault().ToString("C")
+                                                </p>
+                                                <p class="text-decoration-line-through text-muted fw-bold ms-2 mb-0">
+                                                    @product.Price.ToString("C")
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <p class="text-danger fw-bold mb-0">
+                                                    @product.Price.ToString("C")
+                                                </p>
+                                            }
+                                        </div>
+
+                                        <div class="rating mb-1">
+                                            @for (var i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= Math.Floor(product.AvgRating))
+                                                {
+                                                    <i class="fas fa-star text-warning"></i>
+                                                }
+                                                else if (i - product.AvgRating <= 0.5m)
+                                                {
+                                                    <i class="fas fa-star-half-alt text-warning"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="far fa-star text-warning"></i>
+                                                }
+                                            }
+                                            <small class="text-muted fw-bold ms-1">(@product.ReviewCount reviews)</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // simple qty +/- with clamping 1..99
+        (function () {
+            const wrap = document.querySelector('.product-details-page');
+            if (!wrap) return;
+            const input = wrap.querySelector('.qty-input');
+            wrap.querySelectorAll('.qty-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const delta = parseInt(btn.getAttribute('data-delta') || '0', 10);
+                    let val = parseInt(input.value || '1', 10);
+                    val = isNaN(val) ? 1 : Math.max(1, Math.min(99, val + delta));
+                    input.value = val;
+                });
+            });
+        })();
+    </script>
+}
