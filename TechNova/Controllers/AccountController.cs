@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TechNova.Helpers;
 using TechNova.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace TechNova.Controllers
 {
@@ -16,12 +17,13 @@ namespace TechNova.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string? returnUrl = null)
         {
-            return View();
+            return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -36,11 +38,11 @@ namespace TechNova.Controllers
 
             if (existingUser != null)
             {
-                CookieOptions options = new CookieOptions
+                var options = new CookieOptions
                 {
                     Expires = DateTime.Now.AddDays(1),
                     HttpOnly = true,
-                    Secure = true, // set to false if not using HTTPS
+                    Secure = Request.IsHttps,          // only mark Secure when using HTTPS
                     SameSite = SameSiteMode.Strict
                 };
 
@@ -49,6 +51,11 @@ namespace TechNova.Controllers
                 Response.Cookies.Append("UserId", existingUser.UserId.ToString(), options);
                 Response.Cookies.Append("Role", existingUser.Role, options);
 
+                // Redirect back to the original page if provided and local
+                if (!string.IsNullOrWhiteSpace(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+                    return Redirect(model.ReturnUrl);
+
+                // Otherwise fall back by role or home
                 if (existingUser.Role == "Admin")
                     return RedirectToAction("Index", "Product", new { area = "Admin" });
 
