@@ -16,6 +16,9 @@
         <h5 class="text-center mb-4">Enter your details below</h5>
 
         <form asp-action="Login" method="post" class="w-50 mx-auto">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ReturnUrl" />
+
             @if (ViewBag.Error != null)
             {
                 <div class="alert alert-danger">@ViewBag.Error</div>
