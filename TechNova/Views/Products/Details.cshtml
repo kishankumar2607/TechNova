@@ -69,20 +69,21 @@
                 <!-- Short description -->
                 <p class="text-muted mb-4">@Model.Description</p>
 
-                <!-- Quantity + buttons -->
+                <!-- Quantity + buttons (NO JS) -->
                 <div class="d-flex align-items-center flex-wrap gap-2 mb-4">
-                    <div class="qty-control d-inline-flex align-items-center">
-                        <button type="button" class="qty-btn" data-delta="-1">−</button>
-                        <input type="text" class="qty-input" value="1" aria-label="Quantity" />
-                        <button type="button" class="qty-btn" data-delta="1">+</button>
-                    </div>
+                    <form asp-controller="Orders" asp-action="Checkout" method="get" class="d-flex align-items-center gap-2">
+                        <input type="hidden" name="id" value="@Model.ProductID" />
+                        <label for="qtyInput" class="visually-hidden">Quantity</label>
+                        <input id="qtyInput"
+                               name="qty"
+                               type="number"
+                               class="form-control"
+                               style="width: 90px;"
+                               min="1" max="10" value="1" />   <!-- ✅ 1..10 -->
+                        <button class="btn button-style px-4" type="submit">Buy Now</button>
+                    </form>
 
                     <button class="btn button-secondry px-4">Add to Cart</button>
-
-                    <a class="btn button-style px-4"
-                       href="@Url.Action("Checkout","Orders", new { id = Model.ProductID, qty = 1 })">
-                        Buy Now
-                    </a>
 
                     <button class="btn btn-outline-secondary rounded-circle ms-2" title="Add to Wishlist">
                         <i class="far fa-heart"></i>
@@ -197,22 +198,3 @@
         }
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        // simple qty +/- with clamping 1..99
-        (function () {
-            const wrap = document.querySelector('.product-details-page');
-            if (!wrap) return;
-            const input = wrap.querySelector('.qty-input');
-            wrap.querySelectorAll('.qty-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const delta = parseInt(btn.getAttribute('data-delta') || '0', 10);
-                    let val = parseInt(input.value || '1', 10);
-                    val = isNaN(val) ? 1 : Math.max(1, Math.min(99, val + delta));
-                    input.value = val;
-                });
-            });
-        })();
-    </script>
-}
