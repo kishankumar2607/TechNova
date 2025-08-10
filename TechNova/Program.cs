@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TechNova.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,15 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(o =>
+    {
+        o.LoginPath = "/Account/Login";
+        o.AccessDeniedPath = "/Account/Login";
+        o.ReturnUrlParameter = "returnUrl";
+    });
 
 var app = builder.Build();
 
@@ -37,6 +48,8 @@ app.UseRouting();
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 app.UseSession();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
