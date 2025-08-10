@@ -1,0 +1,171 @@
+﻿@model TechNova.Models.CheckoutViewModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="checkout-page">
+    <div class="container my-4">
+        <nav class="small text-muted mb-4">
+            <a class="text-muted text-decoration-none" href="@Url.Action("Index","Home")">Home</a>
+            <span class="mx-2">/</span>
+            <span>CheckOut</span>
+        </nav>
+
+        <h3 class="fw-bold mb-4">Billing Details</h3>
+
+        <div class="row g-4">
+            <!-- Billing form -->
+            <div class="col-lg-7">
+                <form id="checkoutForm" asp-action="Checkout" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.ProductID)
+                    @Html.HiddenFor(m => m.UnitPrice)
+                    @Html.HiddenFor(m => m.Qty)   <!-- ✅ server sends clamped 1..10 -->
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Full Name*</label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Street Address*</label>
+                        <input asp-for="StreetAddress" class="form-control" />
+                        <span asp-validation-for="StreetAddress" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Apartment, floor, etc. (optional)</label>
+                        <input asp-for="Apartment" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Town/City*</label>
+                        <input asp-for="City" class="form-control" />
+                        <span asp-validation-for="City" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Country*</label>
+                        <select asp-for="Country" class="form-select">
+                            <option value="Canada" selected>Canada</option>
+                        </select>
+                        <span asp-validation-for="Country" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Province/Territory*</label>
+                        <select asp-for="State" class="form-select">
+                            <option value="Alberta">Alberta</option>
+                            <option value="British Columbia">British Columbia</option>
+                            <option value="Manitoba">Manitoba</option>
+                            <option value="New Brunswick">New Brunswick</option>
+                            <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+                            <option value="Nova Scotia">Nova Scotia</option>
+                            <option value="Ontario">Ontario</option>
+                            <option value="Prince Edward Island">Prince Edward Island</option>
+                            <option value="Quebec">Quebec</option>
+                            <option value="Saskatchewan">Saskatchewan</option>
+                            <option value="Northwest Territories">Northwest Territories</option>
+                            <option value="Nunavut">Nunavut</option>
+                            <option value="Yukon">Yukon</option>
+                        </select>
+                        <span asp-validation-for="State" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Postal Code*</label>
+                        <input asp-for="PostalCode" class="form-control" />
+                        <span asp-validation-for="PostalCode" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Phone Number*</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email Address*</label>
+                        <input asp-for="EmailAddress" class="form-control" />
+                        <span asp-validation-for="EmailAddress" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input asp-for="SaveForNextTime" class="form-check-input" />
+                        <label class="form-check-label">Save this information for faster check-out next time</label>
+                    </div>
+
+                    <button class="btn button-style px-4" type="submit">Place Order</button>
+                </form>
+            </div>
+
+            <!-- Order summary -->
+            <div class="col-lg-5">
+                <div class="summary-card p-3">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="@Model.ProductImage" alt="@Model.ProductName" class="summary-thumb me-3" />
+                        <div class="flex-grow-1 small">
+                            <div class="fw-semibold">@Model.ProductName</div>
+                            <div class="text-muted">Qty: @Model.Qty</div>
+                        </div>
+                        <div class="fw-semibold">@Model.UnitPrice.ToString("C")</div>
+                    </div>
+
+                    <hr />
+
+                    <div class="d-flex justify-content-between small mb-2">
+                        <span>Subtotal:</span>
+                        <span>@Model.Subtotal.ToString("C")</span>
+                    </div>
+
+                    <!-- ✅ Tax row -->
+                    <div class="d-flex justify-content-between small mb-2">
+                        <span>Tax (@((Model.TaxRate * 100).ToString("0.##"))%)</span>
+                        <span>@Model.Tax.ToString("C")</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between small mb-2">
+                        <span>Shipping:</span>
+                        <span>@Model.ShippingLabel</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between fw-semibold mb-3">
+                        <span>Total:</span>
+                        <span>@Model.Total.ToString("C")</span>
+                    </div>
+
+                    <!-- Payments (unchanged, Tag Helper auto-selects the current one) -->
+                    <div class="payment-box border rounded p-3 mb-3">
+                        @foreach (var pm in Model.PaymentMethods)
+                        {
+                            var rid = $"pm_{pm.PaymentID}";
+                            <div class="form-check mb-2">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       asp-for="SelectedPaymentID"
+                                       value="@pm.PaymentID"
+                                       id="@rid"
+                                       form="checkoutForm" />
+                                <label class="form-check-label" for="@rid">@pm.MethodName</label>
+                            </div>
+                        }
+                        <span asp-validation-for="SelectedPaymentID" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2 mb-3">
+                        <input asp-for="CouponCode" class="form-control" placeholder="Coupon Code" form="checkoutForm" />
+                        <button class="btn button-outline-secondary w-50" type="button">Apply Coupon</button>
+                    </div>
+
+                    <button class="btn button-style w-100" type="submit" form="checkoutForm">Place Order</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
