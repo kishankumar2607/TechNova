@@ -50,7 +50,7 @@
 
     .button-style:hover {
         background-color: transparent;
-        color: #DB4444;
+        color: #DB4444 !important;
     }
 
 .button-secondry {
@@ -67,7 +67,21 @@
         color: #00e953;
     }
 
-.about-us-div{
+.button-outline-secondary {
+    color: #ffffff !important;
+    background-color: #000000;
+    font-weight: 600;
+    font-size: 18px;
+    border: 2px solid #000000;
+    transition: all 0.3s ease-in;
+}
+
+    .button-outline-secondary:hover {
+        background-color: transparent !important;
+        color: #000000 !important;
+    }
+
+.about-us-div {
     padding: 6rem 0rem;
 }
 
@@ -485,6 +499,146 @@
 .product-details-page .image-div:hover .add-to-cart-overlay {
     transform: translateY(0);
     opacity: 1;
+}
+
+.order-success-page .success-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    background: #fff;
+    max-width: 720px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+}
+
+/* Animated checkmark */
+.order-success-page .checkmark {
+    width: 90px;
+    height: 90px
+}
+
+    .order-success-page .checkmark circle {
+        fill: none;
+        stroke: #22c55e;
+        stroke-width: 8;
+        stroke-linecap: round;
+        stroke-dasharray: 176;
+        stroke-dashoffset: 176;
+        animation: draw-circle .7s ease forwards;
+    }
+
+    .order-success-page .checkmark path {
+        fill: none;
+        stroke: #22c55e;
+        stroke-width: 8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 60;
+        stroke-dashoffset: 60;
+        animation: draw-check .5s .45s ease forwards;
+    }
+
+@keyframes draw-circle {
+    to {
+        stroke-dashoffset: 0
+    }
+}
+
+@keyframes draw-check {
+    to {
+        stroke-dashoffset: 0
+    }
+}
+
+/* Confetti (subtle) */
+.order-success-page .celebration {
+    position: relative;
+    display: inline-block
+}
+
+.order-success-page .confetti {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none
+}
+
+    .order-success-page .confetti::before,
+    .order-success-page .confetti::after,
+    .order-success-page .confetti i {
+        content: "";
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        border-radius: 1px;
+        opacity: 0;
+        animation: confetti-pop 1.2s ease-out forwards;
+    }
+
+    .order-success-page .confetti::before {
+        background: #ef4444;
+        left: -20px;
+        animation-delay: .1s
+    }
+
+    .order-success-page .confetti::after {
+        background: #f59e0b;
+        left: 18px;
+        animation-delay: .2s
+    }
+
+    .order-success-page .confetti i {
+        background: #3b82f6;
+        left: -2px;
+        animation-delay: .15s
+    }
+
+@keyframes confetti-pop {
+    0% {
+        transform: translateY(0) rotate(0);
+        opacity: 0
+    }
+
+    15% {
+        opacity: 1
+    }
+
+    100% {
+        transform: translateY(-44px) rotate(220deg);
+        opacity: 0
+    }
+}
+
+/* Order meta */
+.order-success-page .order-id {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Steps */
+.order-success-page .progress-steps .step {
+    text-align: center;
+    opacity: .6
+}
+
+    .order-success-page .progress-steps .step .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #e5e7eb;
+        margin: 0 auto 6px;
+    }
+
+    .order-success-page .progress-steps .step.active {
+        opacity: 1
+    }
+
+        .order-success-page .progress-steps .step.active .dot {
+            background: #22c55e;
+            box-shadow: 0 0 0 4px rgba(34,197,94,.15);
+        }
+
+.order-success-page .progress-steps .label {
+    font-size: .85rem
 }
 
 
