@@ -260,6 +260,233 @@
     object-fit: cover;
 }
 
+.product-card-container .card {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: none;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+    .product-card-container .card:hover {
+        cursor: pointer;
+        transform: translateY(-4px);
+        box-shadow: 0 6px 22px rgba(0,0,0,.08);
+        border-color: #eee;
+    }
+
+.image-div {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background-color: #F5F5F5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.add-to-cart-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform .25s ease, opacity .25s ease;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: #111;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 14px;
+    cursor: pointer;
+}
+
+.home-page .card:hover .add-to-cart-overlay,
+.home-page .image-div:hover .add-to-cart-overlay {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.home-page .add-to-cart-btn:active {
+    transform: scale(.99);
+}
+
+.image-style {
+    height: 140px;
+    width: auto;
+    object-fit: cover;
+}
+
+.badge-discount {
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    background-color: #DB4444;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 3px 8px
+}
+
+.card-actions {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: 10px;
+    top: 15px;
+}
+
+.icon-btn {
+    background-color: #ffffff;
+    border: none;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-details-image-div {
+    width: 100%;
+    height: 100%;
+    background-color: #F5F5F5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-details-image-div img {
+    height: 250px;
+    width: auto;
+    object-fit: cover;
+}
+
+.product-details-page .pd-image-wrap {
+    background: #f7f7f7;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+}
+
+.product-details-page .rating i {
+    margin-right: 2px;
+}
+
+.product-details-page .qty-control {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.product-details-page .qty-btn {
+    width: 38px;
+    height: 40px;
+    border: 0;
+    background: #f3f4f6;
+    font-weight: 700;
+}
+
+.product-details-page .qty-input {
+    width: 56px;
+    height: 40px;
+    border: 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+.product-details-page .pd-info-box {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+    .product-details-page .pd-info-box i {
+        font-size: 20px;
+        color: #111;
+    }
+
+.product-details-page .image-div {
+    position: relative;
+    overflow: hidden;
+    background: #f7f7f7;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.product-details-page .image-style {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    display: block;
+}
+
+.product-details-page .badge-discount {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #db4444;
+    color: #fff;
+    font-weight: 700;
+    font-size: .78rem;
+    padding: 6px 9px;
+    border-radius: 8px;
+}
+
+.product-details-page .card-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.product-details-page .icon-btn {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid #eaeaea;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    cursor: pointer;
+}
+
+.product-details-page .add-to-cart-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform .25s ease, opacity .25s ease;
+}
+
+.product-details-page .add-to-cart-btn {
+    width: 100%;
+    border: 0;
+    background: #111;
+    color: #fff;
+    font-weight: 700;
+    padding: 12px 14px;
+}
+
+.product-details-page .card:hover .add-to-cart-overlay,
+.product-details-page .image-div:hover .add-to-cart-overlay {
+    transform: translateY(0);
+    opacity: 1;
+}
+
 
 @media (max-width: 767px) {
     .featured-card {
