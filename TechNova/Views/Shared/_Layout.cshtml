@@ -58,7 +58,86 @@
                 border: none;
                 background-color: transparent;
             }
+
+        .cart-toast {
+            background: #DB4444;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-top: 8px;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all .18s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,.18);
+        }
+
+            .cart-toast.show {
+                opacity: 1;
+                transform: translateY(0);
+            }
     </style>
+
+    <script>
+        (function () {
+          function wireAddToCart() {
+            document.querySelectorAll('form.js-addtocart').forEach(function (f) {
+              if (f.dataset.wired) return;
+              f.dataset.wired = "1";
+
+              f.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                try {
+                  const resp = await fetch(f.action, {
+                    method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    body: new FormData(f) // includes anti-forgery token
+                  });
+                  let msg = 'Added to cart.';
+                  if (resp.ok) {
+                    const data = await resp.json().catch(() => ({}));
+                    if (data && data.message) msg = data.message;
+
+                    // Optional: update a cart badge if you have one
+                    if (data && typeof data.count === 'number') {
+                      const badge = document.querySelector('[data-cart-count]');
+                      if (badge) badge.textContent = data.count;
+                    }
+                  } else {
+                    msg = 'Could not add to cart. Please try again.';
+                  }
+                  showToast(msg);
+                } catch {
+                  showToast('Could not add to cart. Please try again.');
+                }
+              });
+            });
+          }
+
+          function showToast(text) {
+            let wrap = document.getElementById('toast-wrap');
+            if (!wrap) {
+              wrap = document.createElement('div');
+              wrap.id = 'toast-wrap';
+              wrap.style.position = 'fixed';
+              wrap.style.right = '16px';
+              wrap.style.top = '16px';
+              wrap.style.zIndex = '1055';
+              document.body.appendChild(wrap);
+            }
+            const t = document.createElement('div');
+            t.className = 'cart-toast';
+            t.textContent = text;
+            wrap.appendChild(t);
+            requestAnimationFrame(() => t.classList.add('show'));
+            setTimeout(() => {
+              t.classList.remove('show');
+              setTimeout(() => t.remove(), 180);
+            }, 2200);
+          }
+
+          document.addEventListener('DOMContentLoaded', wireAddToCart);
+        })();
+    </script>
 </head>
 <body>
     <!-- Header: Top Banner -->
@@ -79,6 +158,7 @@
                     <div>
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Home")">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Products")">Products</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Contact", "Home")">Contact</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("About", "Home")">About</a></li>
                             @{
@@ -110,7 +190,9 @@
                     </form>
                     <div class="d-flex ms-3 align-items-center">
                         <a href="@Url.Action("Wishlist", "Wishlist")" class="me-3"><i class="far fa-heart fa-lg text-black"></i></a>
-                        <a href="@Url.Action("Index", "Cart")" class="me-3"><i class="fas fa-shopping-cart fa-lg text-black"></i></a>
+                        <a href="@Url.Action("Index", "Cart")" class="me-3">
+                            <i class="fas fa-shopping-cart fa-lg text-black"></i>
+                        </a>
                         @{
                             var userClass = string.IsNullOrEmpty(userName) ? "d-none" : "d-block";
                         }
