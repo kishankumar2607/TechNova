@@ -274,6 +274,12 @@
     object-fit: cover;
 }
 
+.countdown-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #DB4444;
+}
+
 .product-card-container .card {
     border: 1px solid #e5e7eb;
     border-radius: 8px;
@@ -641,6 +647,100 @@
     font-size: .85rem
 }
 
+.cart-view .cart-table {
+    display: grid;
+    grid-template-columns: 1fr 140px 140px 140px;
+    gap: 0;
+    padding: 14px 18px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    background: #fafafa;
+}
+
+.cart-view .ct-head {
+    font-weight: 700;
+    color: #111;
+}
+
+.cart-view .cart-row {
+    display: grid;
+    grid-template-columns: 1fr 140px 140px 140px;
+    padding: 16px 18px;
+    border: 1px solid #eee;
+    border-top: none;
+    background: #fff;
+}
+
+    .cart-view .cart-row:first-of-type {
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .cart-view .cart-row:last-of-type {
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+.cart-view .ct-cell {
+    display: flex;
+    align-items: center;
+}
+
+.cart-view .thumb-wrap {
+    position: relative;
+    width: 72px;
+    height: 72px;
+}
+
+.cart-view .thumb {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    background: #f7f7f7;
+    border-radius: 10px;
+}
+
+.cart-view .remove-form {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+}
+
+.cart-view .remove-btn {
+    width: 22px;
+    height: 22px;
+    line-height: 20px;
+    border-radius: 50%;
+    border: none;
+    background: #ef4444;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cart-view .qty-select {
+    width: 82px;
+}
+
+/* Summary */
+.cart-view .summary-card {
+    border: 1px solid #eee;
+    border-radius: 12px;
+}
+
+@media (max-width: 991.98px) {
+    .cart-view .cart-table {
+        display: none;
+    }
+
+    .cart-view .cart-row {
+        grid-template-columns: 1fr 100px 120px;
+    }
+
+        .cart-view .cart-row .ct-cell:nth-child(2) {
+            justify-content: flex-end;
+        }
+}
 
 @media (max-width: 767px) {
     .featured-card {
