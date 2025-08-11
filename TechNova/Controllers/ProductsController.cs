@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TechNova.Models;
 
 namespace TechNova.Controllers
@@ -10,6 +11,16 @@ namespace TechNova.Controllers
         public ProductsController(AppDbContext ctx)
         {
             context = ctx;
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            var products = context.Products
+                                  .AsNoTracking()
+                                  .OrderByDescending(p => p.CreatedAt)
+                                  .ToList();
+            return View(products);
         }
 
         public IActionResult Details(int id)
