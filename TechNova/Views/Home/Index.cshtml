@@ -33,7 +33,7 @@
         <h5 class="text-danger fw-bold">Today's</h5>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="fw-bold">Flash Sales</h3>
-            <div id="countdown" class="text-muted small"></div>
+            <div id="countdown" class="countdown-text"></div>
         </div>
 
         <div class="row">
@@ -65,11 +65,12 @@
                                 </div>
 
                                 <div class="add-to-cart-overlay">
-                                    <button type="button"
-                                            class="add-to-cart-btn"
-                                            data-product-id="@product.ProductID">
-                                        Add To Cart
-                                    </button>
+                                    <form asp-controller="Cart" asp-action="Add" method="post" class="w-100 d-flex js-addtocart">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="productId" value="@product.ProductID" />
+                                        <input type="hidden" name="qty" value="1" />
+                                        <button type="submit" class="add-to-cart-btn w-100">Add To Cart</button>
+                                    </form>
                                 </div>
                             </div>
 
@@ -121,20 +122,7 @@
         </div>
 
         <div class="text-center mt-3">
-            <a href="@Url.Action("All", "Products")" class="btn btn-danger">View All Products</a>
-        </div>
-    </div>
-
-    <!-- Browse by Category -->
-    <div class="container mt-5">
-        <h4 class="fw-bold mb-3">Browse By Category</h4>
-        <div class="d-flex justify-content-between text-center category-row">
-            <div class="flex-fill p-3 border rounded me-2">iPhone</div>
-            <div class="flex-fill p-3 border rounded me-2">Computers</div>
-            <div class="flex-fill p-3 border rounded me-2">Smartwatch</div>
-            <div class="flex-fill p-3 border rounded me-2 text-danger fw-bold bg-light">Camera</div>
-            <div class="flex-fill p-3 border rounded me-2">Headphones</div>
-            <div class="flex-fill p-3 border rounded">Gaming</div>
+            <a href="@Url.Action("All", "Products")" class="btn button-style">View All Products</a>
         </div>
     </div>
 
@@ -142,7 +130,7 @@
     <div class="container mt-5 product-card-container">
         <div class="d-flex justify-content-between mb-3">
             <h4 class="fw-bold">Best Selling Products</h4>
-            <a href="#" class="btn btn-outline-dark btn-sm">View All</a>
+            <a href="#" class="btn button-outline-secondary btn-sm">View All</a>
         </div>
         <div class="row">
             @foreach (var product in bestSellers)
@@ -171,11 +159,12 @@
                             </div>
 
                             <div class="add-to-cart-overlay">
-                                <button type="button"
-                                        class="add-to-cart-btn"
-                                        data-product-id="@product.ProductID">
-                                    Add To Cart
-                                </button>
+                                <form asp-controller="Cart" asp-action="Add" method="post" class="w-100 d-flex js-addtocart">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="productId" value="@product.ProductID" />
+                                    <input type="hidden" name="qty" value="1" />
+                                    <button type="submit" class="add-to-cart-btn w-100">Add To Cart</button>
+                                </form>
                             </div>
                         </div>
 
@@ -272,11 +261,12 @@
                             </div>
 
                             <div class="add-to-cart-overlay">
-                                <button type="button"
-                                        class="add-to-cart-btn"
-                                        data-product-id="@product.ProductID">
-                                    Add To Cart
-                                </button>
+                                <form asp-controller="Cart" asp-action="Add" method="post" class="w-100 d-flex js-addtocart">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="productId" value="@product.ProductID" />
+                                    <input type="hidden" name="qty" value="1" />
+                                    <button type="submit" class="add-to-cart-btn w-100">Add To Cart</button>
+                                </form>
                             </div>
                         </div>
 
@@ -411,7 +401,7 @@
         </div>
     </div>
 
-</div><!-- /.home-page -->
+</div>
 @section Scripts {
     <script>
         function startCountdown(hours) {
