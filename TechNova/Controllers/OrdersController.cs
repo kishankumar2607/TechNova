@@ -8,15 +8,15 @@ namespace TechNova.Controllers
     public class OrdersController : Controller
     {
         private AppDbContext context { get; set; }
+        private const decimal TAX_RATE = 0.13m;
 
         public OrdersController(AppDbContext ctx)
         {
             context = ctx;
         }
 
-        // GET /Orders/Checkout?id=123&qty=1  (from Buy Now)
         [HttpGet]
-        public IActionResult Checkout(int id, int qty = 1)
+        public IActionResult Checkout(int id, int qty = 1, int? paymentId = null)
         {
             if (string.IsNullOrEmpty(Request.Cookies["UserId"]))
             {
@@ -36,30 +36,29 @@ namespace TechNova.Controllers
                 ProductID = product.ProductID,
                 ProductName = product.Name,
                 ProductImage = product.ImageURL,
-                Qty = Math.Max(1, Math.Min(10, qty)),
+                Qty = Clamp(qty),
                 UnitPrice = unitPrice,
                 ShippingLabel = "Free",
-                Country = "Canada",          // ✅ default to Canada
-                State = "Ontario",           // (optional default)
+                Country = "Canada",
+                State = "Ontario",
                 PaymentMethods = new List<PaymentMethodVM>
                 {
                     new() { PaymentID = 1, MethodName = "Bank" },
                     new() { PaymentID = 2, MethodName = "Cash on delivery" }
                 },
-                SelectedPaymentID = 2
+                SelectedPaymentID = (paymentId == 1 || paymentId == 2) ? paymentId.Value : 1
             };
 
-            vm.TaxRate = GetTaxRateForProvince(vm.State);
+            vm.TaxRate = TAX_RATE;
             vm.RecalculateTotals();
             return View(vm);
         }
 
-        // POST /Orders/Checkout
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Checkout(CheckoutViewModel vm)
         {
-            // 🔒 Require login (custom cookie)
+            // Require login (custom cookie)
             if (string.IsNullOrEmpty(Request.Cookies["UserId"]))
             {
                 var returnUrl = Url.Action("Checkout", "Orders", new { id = vm.ProductID, qty = Clamp(vm.Qty) });
@@ -69,7 +68,7 @@ namespace TechNova.Controllers
             // ensure qty 1..10 and totals correct
             vm.Qty = Clamp(vm.Qty);
             vm.Country = "Canada";
-            vm.TaxRate = GetTaxRateForProvince(vm.State);
+            vm.TaxRate = TAX_RATE;
 
             // re-populate methods on postback
             vm.PaymentMethods ??= new List<PaymentMethodVM>
@@ -96,9 +95,9 @@ namespace TechNova.Controllers
                 StreetAddress = vm.StreetAddress,
                 Apartment = vm.Apartment ?? string.Empty,
                 City = vm.City,
-                State = vm.State,         // from dropdown
+                State = vm.State,
                 PostalCode = vm.PostalCode,
-                Country = vm.Country,       // "Canada"
+                Country = vm.Country,
                 PhoneNumber = vm.PhoneNumber,
                 EmailAddress = vm.EmailAddress,
                 PaymentID = vm.SelectedPaymentID,
@@ -117,15 +116,12 @@ namespace TechNova.Controllers
             context.OrderItems.Add(item);
             context.SaveChanges();
 
-            // 🔀 Branch by payment method
-            if (vm.SelectedPaymentID == 1) // Bank
+            if (vm.SelectedPaymentID == 1)
                 return RedirectToAction(nameof(BankDetails), new { id = order.OrderID });
 
-            // COD
             return RedirectToAction(nameof(Success), new { id = order.OrderID });
         }
 
-        // GET /Orders/BankDetails/5
         [HttpGet]
         public IActionResult BankDetails(int id)
         {
@@ -153,7 +149,6 @@ namespace TechNova.Controllers
             return View(vm);
         }
 
-        // POST /Orders/BankDetails
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult BankDetails(BankDetailsViewModel vm)
@@ -173,37 +168,25 @@ namespace TechNova.Controllers
             var isAdmin = string.Equals(Request.Cookies["Role"], "Admin", StringComparison.OrdinalIgnoreCase);
             if (!isAdmin && order.CustomerID != userId) return Forbid();
 
-            // 🔒 Keep it simple: we won't store bank details now.
-            // If you want to persist later, we can add a table + migration.
-
-            // All good → show success
             return RedirectToAction(nameof(Success), new { id = vm.OrderID });
         }
 
-        public IActionResult Success(int id) => View(model: id);
+        public IActionResult Success(int? id)
+        {
+            var existing = HttpContext.Session.GetString("LastOrderNo");
+            if (!string.IsNullOrEmpty(existing))
+            {
+                ViewBag.DisplayOrderNo = existing;
+                return View();
+            }
+
+            var display = System.Security.Cryptography.RandomNumberGenerator.GetInt32(10_000_000, 100_000_000).ToString("D8");
+
+            HttpContext.Session.SetString("LastOrderNo", display);
+            ViewBag.DisplayOrderNo = display;
+            return View();
+        }
 
         private static int Clamp(int q) => Math.Max(1, Math.Min(10, q));
-
-        private static decimal GetTaxRateForProvince(string? state)
-        {
-            if (string.IsNullOrWhiteSpace(state)) return 0.13m; // default ON
-            switch (state.Trim())
-            {
-                case "Alberta":
-                case "Northwest Territories":
-                case "Nunavut":
-                case "Yukon": return 0.05m; // GST
-                case "British Columbia": return 0.12m; // GST+PST
-                case "Manitoba": return 0.12m; // GST+RST
-                case "New Brunswick":
-                case "Newfoundland and Labrador":
-                case "Nova Scotia":
-                case "Prince Edward Island": return 0.15m; // HST
-                case "Ontario": return 0.13m; // HST
-                case "Quebec": return 0.14975m; // GST+QST
-                case "Saskatchewan": return 0.11m; // GST+PST
-                default: return 0.13m;
-            }
-        }
     }
 }
