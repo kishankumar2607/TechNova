@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Something went wrong";
+    var code = ViewBag.StatusCode as int?;
+    var path = ViewBag.Path as string;
+    var msg  = ViewBag.Message as string;
+}
+
+<div class="container py-5 text-center">
+    <h1 class="fw-bold mb-2">Oops!</h1>
+
+    <p class="text-muted mb-3">
+        @(code.HasValue ? $"We hit an error (code {code})." : "An unexpected error occurred.")
+    </p>
+
+    <div class="d-inline-block text-start bg-light border rounded p-3 mb-4">
+        <div class="small"><strong>Path:</strong> @(!string.IsNullOrWhiteSpace(path) ? path : "—")</div>
+        <div class="small"><strong>Message:</strong> @(!string.IsNullOrWhiteSpace(msg) ? msg : "Please try again.")</div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-2">
+        <a class="btn button-style" href="@Url.Action("Index","Home")">Back to Home</a>
+        <button class="btn btn-outline-secondary" type="button" onclick="history.back()">Try Again</button>
+    </div>
+</div>
