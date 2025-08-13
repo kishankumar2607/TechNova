@@ -3,16 +3,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TechNova.Models
 {
+    // Order line item entity:
+    // - Links an Order to a Product
+    // - Stores the quantity and the unit price snapshot at purchase time
     public class OrderItem
     {
         [Key]
         public int OrderItemID { get; set; }
 
         public int OrderID { get; set; }
+
         [ForeignKey(nameof(OrderID))]
         public Order Order { get; set; }
 
         public int ProductID { get; set; }
+
         [ForeignKey(nameof(ProductID))]
         public Product Product { get; set; }
 
