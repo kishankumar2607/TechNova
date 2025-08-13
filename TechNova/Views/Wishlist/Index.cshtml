@@ -1,0 +1,133 @@
+﻿@model List<TechNova.Models.WishlistItem>
+@using TechNova.Models
+@{
+    ViewData["Title"] = "Wishlist";
+    var you = ViewBag.JustForYou as List<Product> ?? new();
+    var count = Model?.Count ?? 0;
+    var returnUrl = $"{ViewContext.HttpContext.Request.Path}{ViewContext.HttpContext.Request.QueryString}";
+}
+
+<div class="container my-4 wishlist-page">
+    <h5 class="fw-bold mb-3">Wishlist (@count)</h5>
+
+    @if (count == 0)
+    {
+        <div class="alert alert-light border">
+            Your wishlist is empty. <a href="@Url.Action("Index","Products")" class="fw-semibold">Browse products</a>.
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-end mb-3">
+            <form asp-action="MoveAllToCart" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <button class="btn btn-sm button-style">Move All To Bag</button>
+            </form>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var it in Model)
+            {
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card h-100 wishlist-card">
+                        <div class="image-div position-relative">
+                            @if (it.DiscountPercent.HasValue && it.DiscountPercent.Value > 0)
+                            {
+                                <span class="badge-discount">-@Math.Round(it.DiscountPercent.Value, 0)%</span>
+                            }
+
+                            <a href="@Url.Action("Details","Products", new { id = it.ProductID })">
+                                <img src="@it.ImageURL" class="image-style" alt="@it.Name" />
+                            </a>
+
+                            <form asp-action="Remove" method="post" class="trash-form">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="productId" value="@it.ProductID" />
+                                <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                <button type="submit" class="trash-btn" title="Remove">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="card-body d-flex flex-column">
+                            <h6 class="card-title flex-grow-1">@it.Name</h6>
+
+                            <div class="mb-2">
+                                @if (it.DiscountedPrice.HasValue)
+                                {
+                                    <span class="text-danger fw-bold">@it.DiscountedPrice.Value.ToString("C")</span>
+                                    <span class="text-muted text-decoration-line-through fw-semibold ms-1">@it.Price.ToString("C")</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger fw-bold">@it.Price.ToString("C")</span>
+                                }
+                            </div>
+
+                            <form asp-action="MoveToCart" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="productId" value="@it.ProductID" />
+                                <input type="hidden" name="qty" value="1" />
+                                <button type="submit" class="btn btn-sm button-style w-100">Add To Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    @if (you.Any())
+    {
+        <div class="mt-5">
+            <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-square text-danger me-2"></i>
+                <h6 class="mb-0 fw-bold">Just For You</h6>
+                <a class="btn button-style ms-auto" href="@Url.Action("Index","Products")">See All</a>
+            </div>
+
+            <div class="row g-4">
+                @foreach (var p in you)
+                {
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="card h-100">
+                            <div class="image-div position-relative">
+                                @if (p.DiscountPercent.HasValue && p.DiscountPercent.Value > 0)
+                                {
+                                    <span class="badge-discount">-@Math.Round(p.DiscountPercent.Value, 0)%</span>
+                                }
+
+                                <a href="@Url.Action("Details","Products", new { id = p.ProductID })">
+                                    <img src="@p.ImageURL" class="image-style" alt="@p.Name" />
+                                </a>
+                            </div>
+
+                            <div class="card-body">
+                                <h6 class="card-title">@p.Name</h6>
+                                <div class="mb-2">
+                                    @if (p.DiscountPercent.HasValue && p.DiscountPercent.Value > 0 && p.DiscountedPrice.HasValue)
+                                    {
+                                        <span class="text-danger fw-bold">@p.DiscountedPrice.Value.ToString("C")</span>
+                                        <span class="text-muted text-decoration-line-through fw-semibold ms-1">@p.Price.ToString("C")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger fw-bold">@p.Price.ToString("C")</span>
+                                    }
+                                </div>
+
+                                <form asp-controller="Cart" asp-action="Add" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="productId" value="@p.ProductID" />
+                                    <input type="hidden" name="qty" value="1" />
+                                    <button class="btn btn-sm button-style w-100" type="submit">Add To Cart</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
