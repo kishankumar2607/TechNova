@@ -186,10 +186,23 @@
                             }
                         </ul>
                     </div>
-                    <form class="d-flex ms-4" role="search">
-                        <input class="form-control me-2" type="search" placeholder="What are you looking for?" aria-label="Search" />
-                        <button class="btn btn-outline-dark" type="submit"><i class="fas fa-search"></i></button>
+                    <form asp-area=""
+                          asp-controller="Products"
+                          asp-action="Search"
+                          method="get"
+                          class="d-flex ms-4"
+                          role="search">
+                        <input class="form-control me-2"
+                               type="search"
+                               name="q"
+                               value="@(ViewContext?.HttpContext?.Request?.Query["q"])"
+                               placeholder="Search products…"
+                               aria-label="Search" />
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </form>
+
                     <div class="d-flex ms-3 align-items-center">
                         <a href="@Url.Action("index", "Wishlist")" class="me-3"><i class="far fa-heart fa-lg text-black"></i></a>
                         <a href="@Url.Action("Index", "Cart")" class="me-3">
