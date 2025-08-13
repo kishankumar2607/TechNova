@@ -14,7 +14,6 @@
         <h3 class="fw-bold mb-4">Billing Details</h3>
 
         <div class="row g-4">
-            <!-- Billing form -->
             <div class="col-lg-7">
                 <form id="checkoutForm" asp-action="Checkout" method="post" novalidate>
                     @Html.AntiForgeryToken()
@@ -90,7 +89,6 @@
                 </form>
             </div>
 
-            <!-- Order summary -->
             <div class="col-lg-5">
                 <div class="summary-card p-3">
                     <div class="d-flex align-items-center mb-3">
@@ -109,7 +107,6 @@
                         <span>@Model.Subtotal.ToString("C")</span>
                     </div>
 
-                    <!-- ✅ Tax row -->
                     <div class="d-flex justify-content-between small mb-2">
                         <span>Tax (@((Model.TaxRate * 100).ToString("0.##"))%)</span>
                         <span>@Model.Tax.ToString("C")</span>
@@ -125,7 +122,6 @@
                         <span>@Model.Total.ToString("C")</span>
                     </div>
 
-                    <!-- Payments (unchanged, Tag Helper auto-selects the current one) -->
                     <div class="payment-box border rounded p-3 mb-3">
                         @foreach (var pm in Model.PaymentMethods)
                         {
