@@ -39,7 +39,6 @@ namespace TechNova.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
             {
-                // Debugging: Add this temporarily to see what's failing
                 var errors = ModelState.Values.SelectMany(v => v.Errors).ToList();
                 return View(product);
             }
