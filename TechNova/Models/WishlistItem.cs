@@ -1,5 +1,7 @@
 ﻿namespace TechNova.Models
 {
+    // Wishlist line item stored in session: holds product identity, display info,
+    // and snapshot pricing/discounts. EffectivePrice prefers DiscountedPrice when present.
     public class WishlistItem
     {
         public int ProductID { get; set; }
