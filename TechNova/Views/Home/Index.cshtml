@@ -48,8 +48,9 @@
                                         -@Math.Round(product.DiscountPercent.Value, 0)%
                                     </span>
                                 }
-
-                                <img src="@product.ImageURL" class="image-style" alt="@product.Name" />
+                                <a href="@Url.Action("Details", "Products", new { id = product.ProductID })">
+                                    <img src="@product.ImageURL" class="image-style" alt="@product.Name" />
+                                </a>
 
                                 <div class="card-actions">
                                     <button type="button" class="icon-btn mb-1" title="Add to Wishlist" aria-label="Add to Wishlist"
@@ -142,7 +143,9 @@
                                 </span>
                             }
 
-                            <img src="@product.ImageURL" class="image-style" alt="@product.Name" />
+                            <a href="@Url.Action("Details", "Products", new { id = product.ProductID })">
+                                <img src="@product.ImageURL" class="image-style" alt="@product.Name" />
+                            </a>
 
                             <div class="card-actions">
                                 <button type="button" class="icon-btn mb-1" title="Add to Wishlist" aria-label="Add to Wishlist"
@@ -242,7 +245,9 @@
                                 </span>
                             }
 
-                            <img src="@product.ImageURL" class="image-style" alt="@product.Name" />
+                            <a href="@Url.Action("Details", "Products", new { id = product.ProductID })">
+                                <img src="@product.ImageURL" class="image-style" alt="@product.Name" />
+                            </a>
 
                             <div class="card-actions">
                                 <button type="button" class="icon-btn mb-1" title="Add to Wishlist" aria-label="Add to Wishlist"
