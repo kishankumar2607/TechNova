@@ -709,13 +709,16 @@
 .cart-view .remove-btn {
     width: 22px;
     height: 22px;
-    line-height: 20px;
     border-radius: 50%;
     border: none;
     background: #ef4444;
     color: #fff;
-    font-weight: 700;
+    font-weight: 900;
     cursor: pointer;
+    line-height: 0;
+    padding-bottom: 3px;
+    font-size: 16px;
+    margin: 0;
 }
 
 .cart-view .qty-select {
