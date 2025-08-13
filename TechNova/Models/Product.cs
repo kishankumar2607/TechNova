@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TechNova.Models
 {
+    // Domain model for a catalog product.
+    // DataAnnotations drive validation; monetary/rate precision is enforced via attributes/DbContext.
     public class Product
     {
         public int ProductID { get; set; }
