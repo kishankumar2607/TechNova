@@ -9,6 +9,15 @@
 <div class="product-details-page">
 
     <div class="container my-4">
+
+        @if (TempData["CartMsg"] is string cartMsg)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @cartMsg
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
         <!-- Breadcrumb -->
         <nav class="small text-muted mb-3">
             <a href="@Url.Action("Index","Home")" class="text-muted text-decoration-none">Home</a>
@@ -83,7 +92,15 @@
                         <button class="btn button-style px-4" type="submit">Buy Now</button>
                     </form>
 
-                    <button class="btn button-outline-secondary px-4">Add to Cart</button>
+                    <!-- Add to Cart (server post + redirect back) -->
+                    <form asp-controller="Cart"
+                          asp-action="Add"
+                          method="post"
+                          asp-route-returnUrl="@(ViewContext.HttpContext.Request.Path + ViewContext.HttpContext.Request.QueryString)">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="productId" value="@Model.ProductID" />
+                        <button class="btn button-outline-secondary px-4" type="submit">Add to Cart</button>
+                    </form>
 
                     <button class="btn btn-outline-secondary rounded-circle ms-2" title="Add to Wishlist">
                         <i class="far fa-heart"></i>
