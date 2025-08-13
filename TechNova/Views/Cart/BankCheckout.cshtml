@@ -15,7 +15,6 @@
             <div class="col-lg-7">
                 <form asp-action="BankCheckout" method="post" novalidate>
                     @Html.AntiForgeryToken()
-                    <!-- IMPORTANT: send payment choice so validation passes -->
                     <input type="hidden" asp-for="SelectedPaymentID" value="1" />
 
                     <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
