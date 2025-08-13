@@ -139,6 +139,8 @@
         })();
     </script>
 </head>
+@await Html.PartialAsync("_SuccessPopup")
+
 <body>
     <!-- Header: Top Banner -->
     <div class="bg-black text-white text-center py-3 small">
@@ -189,7 +191,7 @@
                         <button class="btn btn-outline-dark" type="submit"><i class="fas fa-search"></i></button>
                     </form>
                     <div class="d-flex ms-3 align-items-center">
-                        <a href="@Url.Action("Wishlist", "Wishlist")" class="me-3"><i class="far fa-heart fa-lg text-black"></i></a>
+                        <a href="@Url.Action("index", "Wishlist")" class="me-3"><i class="far fa-heart fa-lg text-black"></i></a>
                         <a href="@Url.Action("Index", "Cart")" class="me-3">
                             <i class="fas fa-shopping-cart fa-lg text-black"></i>
                         </a>
