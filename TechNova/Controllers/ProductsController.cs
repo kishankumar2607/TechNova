@@ -48,5 +48,25 @@ namespace TechNova.Controllers
             // render details view
             return View(product);
         }
+
+        [HttpGet]
+        public IActionResult Search(string? q)
+        {
+            q = (q ?? string.Empty).Trim();
+
+            var products = context.Products
+                                  .AsNoTracking()
+                                  .Where(p =>
+                                      string.IsNullOrEmpty(q) ||
+                                      EF.Functions.Like(p.Name, $"%{q}%") ||
+                                      (p.Description != null && EF.Functions.Like(p.Description, $"%{q}%")))
+                                  .OrderByDescending(p => p.CreatedAt)
+                                  .ToList();
+
+            ViewBag.Query = q;
+            ViewBag.Count = products.Count;
+            return View(products); // Views/Products/Search.cshtml
+        }
+
     }
 }
