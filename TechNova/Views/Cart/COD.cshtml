@@ -16,7 +16,6 @@
             <div class="col-lg-7">
                 <form asp-action="COD" method="post" novalidate>
                     @Html.AntiForgeryToken()
-                    <!-- IMPORTANT: send payment choice so validation passes -->
                     <input type="hidden" asp-for="SelectedPaymentID" value="2" />
 
                     <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
