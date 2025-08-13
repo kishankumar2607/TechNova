@@ -1,5 +1,7 @@
 ﻿namespace TechNova.Models
 {
+    // Session-backed cart line item used by the Cart; stores snapshot pricing and quantity.
+    // LineTotal is a computed value (UnitPrice * Qty).
     public class CartItem
     {
         public int ProductID { get; set; }
