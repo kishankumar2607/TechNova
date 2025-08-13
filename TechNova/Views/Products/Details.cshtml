@@ -19,7 +19,6 @@
             </div>
         }
 
-        <!-- Breadcrumb -->
         <nav class="small text-muted mb-3">
             <a href="@Url.Action("Index","Home")" class="text-muted text-decoration-none">Home</a>
             <span class="mx-2">/</span>
@@ -27,18 +26,15 @@
         </nav>
 
         <div class="row g-4">
-            <!-- Left: Single product image -->
             <div class="col-lg-6">
                 <div class="pd-image-wrap product-details-image-div">
                     <img src="@Model.ImageURL" alt="@Model.Name" class="img-fluid" />
                 </div>
             </div>
 
-            <!-- Right: Details -->
             <div class="col-lg-6">
                 <h4 class="fw-bold mb-2">@Model.Name</h4>
 
-                <!-- Rating + reviews + stock -->
                 <div class="d-flex align-items-center gap-3 mb-2">
                     <div class="rating">
                         @for (var i = 1; i <= 5; i++)
@@ -62,7 +58,6 @@
                     <span class="badge bg-success-subtle text-success border border-success-subtle">In Stock</span>
                 </div>
 
-                <!-- Price -->
                 <div class="d-flex align-items-baseline gap-3 mb-2">
                     @if (Model.DiscountPercent.HasValue && Model.DiscountPercent.Value > 0 && Model.DiscountedPrice.HasValue)
                     {
@@ -76,10 +71,8 @@
                     }
                 </div>
 
-                <!-- Short description -->
                 <p class="text-muted mb-4">@Model.Description</p>
 
-                <!-- Quantity + buttons (NO JS) -->
                 <div class="d-flex align-items-center flex-wrap gap-2 mb-4">
                     <form asp-controller="Orders" asp-action="Checkout" method="get" class="d-flex align-items-center gap-2">
                         <input type="hidden" name="id" value="@Model.ProductID" />
@@ -89,11 +82,10 @@
                                type="number"
                                class="form-control"
                                style="width: 90px;"
-                               min="1" max="10" value="1" />   <!-- ✅ 1..10 -->
+                               min="1" max="10" value="1" />
                         <button class="btn button-style px-4" type="submit">Buy Now</button>
                     </form>
 
-                    <!-- Add to Cart (server post + redirect back) -->
                     <form asp-controller="Cart"
                           asp-action="Add"
                           method="post"
@@ -113,7 +105,6 @@
                     </form>
                 </div>
 
-                <!-- Delivery info boxes -->
                 <div class="pd-info-box d-flex align-items-center gap-3">
                     <i class="fas fa-truck" aria-hidden="true"></i>
                     <div>
@@ -132,7 +123,6 @@
             </div>
         </div>
 
-        <!-- Related Items -->
         @if (related.Any())
         {
             <div class="mt-5">
