@@ -1,0 +1,108 @@
+﻿@model List<TechNova.Models.Product>
+@using TechNova.Models
+@{
+    ViewData["Title"] = "Search";
+    var q = ViewBag.Query as string ?? "";
+    var count = (int)(ViewBag.Count ?? Model.Count);
+    var returnUrl = $"{ViewContext.HttpContext.Request.Path}{ViewContext.HttpContext.Request.QueryString}";
+}
+
+<div class="container my-4 product-card-container">
+    <h4 class="fw-bold mb-3">Search results for “@q” (@count)</h4>
+
+    @await Html.PartialAsync("_SuccessPopup")
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-light border">
+            No products matched your search.
+            <a href="@Url.Action("Index","Products")" class="fw-semibold">Browse all products</a>.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <div class="image-div position-relative">
+                            @if (product.DiscountPercent.HasValue && product.DiscountPercent.Value > 0)
+                            {
+                                <span class="badge-discount">
+                                    -@Math.Round(product.DiscountPercent.Value, 0)%
+                                </span>
+                            }
+
+                            <a href="@Url.Action("Details", "Products", new { id = product.ProductID })">
+                                <img src="@product.ImageURL" class="image-style" alt="@product.Name" />
+                            </a>
+                        </div>
+
+                        <a href="@Url.Action("Details", "Products", new { id = product.ProductID })"
+                           class="text-decoration-none text-dark">
+                            <div class="card-body">
+                                <h6 class="card-title">@product.Name</h6>
+
+                                <div class="d-flex align-items-center mb-0">
+                                    @if (product.DiscountPercent.HasValue && product.DiscountPercent.Value > 0 && product.DiscountedPrice.HasValue)
+                                    {
+                                        <p class="text-danger fw-bold mb-0">
+                                            @product.DiscountedPrice.Value.ToString("C")
+                                        </p>
+                                        <p class="text-decoration-line-through text-muted fw-bold ms-2 mb-0">
+                                            @product.Price.ToString("C")
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-danger fw-bold mb-0">
+                                            @product.Price.ToString("C")
+                                        </p>
+                                    }
+                                </div>
+
+                                <div class="rating mb-1">
+                                    @for (var i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= Math.Floor(product.AvgRating))
+                                        {
+                                            <i class="fas fa-star text-warning"></i>
+                                        }
+                                        else if (i - product.AvgRating <= 0.5m)
+                                        {
+                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="far fa-star text-warning"></i>
+                                        }
+                                    }
+                                    <small class="text-muted fw-bold ms-1">(@product.ReviewCount reviews)</small>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="card-body pt-0 w-100 d-flex align-items-center justify-content-center">
+                            <form asp-controller="Cart" asp-action="Add" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="productId" value="@product.ProductID" />
+                                <input type="hidden" name="qty" value="1" />
+                                <button class="btn btn-sm button-style" type="submit">Add To Cart</button>
+                            </form>
+
+                            <form asp-controller="Wishlist" asp-action="Add" method="post" class="d-inline ms-2">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="productId" value="@product.ProductID" />
+                                <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                <button class="btn button-outline-secondary" type="submit" title="Add to Wishlist">
+                                    <i class="far fa-heart"></i> Wishlist
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
