@@ -38,7 +38,7 @@ namespace TechNova.Controllers
         // POST /Cart/Add
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Add(int productId, int qty = 1)
+        public IActionResult Add(int productId, int qty = 1, string? returnUrl = null)  // ← add this param
         {
             qty = Math.Max(1, Math.Min(10, qty));
 
@@ -71,24 +71,15 @@ namespace TechNova.Controllers
 
             SaveCart(cart);
 
-            var message = $"{p.Name} added to cart.";
-            var count = cart.Sum(i => i.Qty);
-            var subtotal = cart.Sum(i => i.LineTotal);
+            TempData["CartMsg"] = $"{p.Name} added to cart.";
 
-            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            {
-                return Json(new
-                {
-                    ok = true,
-                    message,
-                    count,
-                    subtotal = subtotal.ToString("C")
-                });
-            }
+            // Use the returnUrl if it came from the form and is safe/local
+            if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
 
-            TempData["CartMsg"] = message;
             return RedirectToAction(nameof(Index));
         }
+
 
         // POST /Cart/Update
         [HttpPost]
