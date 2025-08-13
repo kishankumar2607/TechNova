@@ -2,12 +2,12 @@
 
 namespace TechNova.Models
 {
+    // ViewModel for collecting bank transfer details during checkout.
+    // Uses DataAnnotations for validation; Amount is display-only and OrderID links to the order.
     public class BankDetailsViewModel
     {
         [Required]
         public int OrderID { get; set; }
-
-        // purely for display
         public decimal Amount { get; set; }
 
         [Required(ErrorMessage = "Account holder name is required.")]
