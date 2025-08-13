@@ -5,6 +5,7 @@
     var bestSellers = ViewBag.BestSellers as List<Product>;
     var explore = ViewBag.Explore as List<Product>;
     var newArrivals = ViewBag.NewArrivals as List<Product>;
+    var returnUrl = $"{ViewContext.HttpContext.Request.Path}{ViewContext.HttpContext.Request.QueryString}";
 }
 
 <div class="home-page">
@@ -53,10 +54,14 @@
                                 </a>
 
                                 <div class="card-actions">
-                                    <button type="button" class="icon-btn mb-1" title="Add to Wishlist" aria-label="Add to Wishlist"
-                                            data-product-id="@product.ProductID">
-                                        <i class="far fa-heart"></i>
-                                    </button>
+                                    <form asp-controller="Wishlist" asp-action="Add" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="productId" value="@product.ProductID" />
+                                        <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                        <button type="submit" class="icon-btn mb-1" title="Add to Wishlist">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </form>
                                     <a class="icon-btn" title="Quick View" aria-label="Quick View"
                                        href="@Url.Action("Details", "Products", new { id = product.ProductID })">
                                         <i class="far fa-eye"></i>
@@ -148,10 +153,15 @@
                             </a>
 
                             <div class="card-actions">
-                                <button type="button" class="icon-btn mb-1" title="Add to Wishlist" aria-label="Add to Wishlist"
-                                        data-product-id="@product.ProductID">
-                                    <i class="far fa-heart"></i>
-                                </button>
+                                <form asp-controller="Wishlist" asp-action="Add" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="productId" value="@product.ProductID" />
+                                        <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                        <button type="submit" class="icon-btn mb-1" title="Add to Wishlist">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                </form>
+
                                 <a class="icon-btn" title="Quick View" aria-label="Quick View"
                                    href="@Url.Action("Details", "Products", new { id = product.ProductID })">
                                     <i class="far fa-eye"></i>
@@ -250,10 +260,14 @@
                             </a>
 
                             <div class="card-actions">
-                                <button type="button" class="icon-btn mb-1" title="Add to Wishlist" aria-label="Add to Wishlist"
-                                        data-product-id="@product.ProductID">
-                                    <i class="far fa-heart"></i>
-                                </button>
+                                <form asp-controller="Wishlist" asp-action="Add" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="productId" value="@product.ProductID" />
+                                    <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                    <button type="submit" class="icon-btn mb-1" title="Add to Wishlist">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                </form>
                                 <a class="icon-btn" title="Quick View" aria-label="Quick View"
                                    href="@Url.Action("Details", "Products", new { id = product.ProductID })">
                                     <i class="far fa-eye"></i>
