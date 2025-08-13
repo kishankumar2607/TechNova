@@ -20,7 +20,7 @@
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.ProductID)
                     @Html.HiddenFor(m => m.UnitPrice)
-                    @Html.HiddenFor(m => m.Qty)   <!-- ✅ server sends clamped 1..10 -->
+                    @Html.HiddenFor(m => m.Qty)
 
                     <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
 
