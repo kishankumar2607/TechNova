@@ -2,6 +2,7 @@
 
 namespace TechNova.Models
 {
+    // ViewModel for user login: captures credentials and an optional return URL target after authentication.
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Email address is required.")]
