@@ -2,6 +2,8 @@
 
 namespace TechNova.Models
 {
+    // ViewModel used for checkout: carries product/cart totals, billing/delivery fields, and payment selection.
+    // Intended to be the single source of truth for server-side validation and total calculations.
     public class CheckoutViewModel
     {
         // Product summary
@@ -21,16 +23,17 @@ namespace TechNova.Models
 
         // Totals
         public decimal Subtotal { get; set; }
-        public decimal TaxRate { get; set; }   // e.g., 0.13m
+        public decimal TaxRate { get; set; }
         public decimal Tax { get; set; }
         public decimal Total { get; set; }
 
+        // Computes server-trust totals: clamps Qty, applies shipping rule, calculates tax, and final total.
         public void RecalculateTotals()
         {
             var q = Math.Max(1, Math.Min(10, Qty));
             Subtotal = UnitPrice * q;
 
-            // ✅ Shipping rule: Free if order (subtotal) > $500, else $30
+            // Shipping rule: Free if order (subtotal) > $500, else $30
             Shipping = Subtotal > 500m ? 0m : 30m;
             ShippingLabel = Shipping <= 0m ? "Free" : Shipping.ToString("C");
 
@@ -51,7 +54,7 @@ namespace TechNova.Models
         [Required] public string StreetAddress { get; set; } = "";
         public string? Apartment { get; set; }
         [Required] public string City { get; set; } = "";
-        [Required] public string State { get; set; } = "Ontario";  // Province/Territory
+        [Required] public string State { get; set; } = "Ontario";
         [Required] public string PostalCode { get; set; } = "";
         [Required] public string Country { get; set; } = "Canada";
         [Required] public string PhoneNumber { get; set; } = "";
@@ -59,6 +62,7 @@ namespace TechNova.Models
         public bool SaveForNextTime { get; set; }
     }
 
+    // Simple option item for rendering selectable payment methods.
     public class PaymentMethodVM
     {
         public int PaymentID { get; set; }
