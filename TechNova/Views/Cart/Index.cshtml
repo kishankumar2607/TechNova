@@ -34,7 +34,6 @@
         @foreach (var it in Model)
         {
             <div class="cart-row align-items-center">
-                <!-- Product -->
                 <div class="ct-cell">
                     <div class="d-flex align-items-center">
                         <div class="thumb-wrap me-3">
@@ -49,10 +48,8 @@
                     </div>
                 </div>
 
-                <!-- Price -->
                 <div class="ct-cell">$@it.UnitPrice.ToString("0.00")</div>
 
-                <!-- Quantity -->
                 <div class="ct-cell">
                     <form asp-action="Update" asp-controller="Cart" method="post" class="d-inline">
                         @Html.AntiForgeryToken()
@@ -67,7 +64,6 @@
                     </form>
                 </div>
 
-                <!-- Line total -->
                 <div class="ct-cell text-end fw-semibold">$@it.LineTotal.ToString("0.00")</div>
             </div>
         }
