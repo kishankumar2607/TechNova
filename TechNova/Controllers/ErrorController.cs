@@ -17,7 +17,7 @@ namespace TechNova.Controllers
             var feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
             ViewBag.Path = feature?.Path;
             ViewBag.Message = feature?.Error?.Message;
-            return View("ErrorGeneric"); // -> Views/Error/ErrorGeneric.cshtml
+            return View("ErrorGeneric");
         }
 
         // Status codes via UseStatusCodePagesWithReExecute("/Error/{0}")
@@ -26,7 +26,7 @@ namespace TechNova.Controllers
         {
             if (code == 404) return RedirectToAction(nameof(Error404));
             ViewBag.StatusCode = code;
-            return View("ErrorGeneric"); // -> Views/Error/ErrorGeneric.cshtml
+            return View("ErrorGeneric");
         }
     }
 }
