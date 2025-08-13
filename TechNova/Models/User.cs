@@ -2,6 +2,8 @@
 
 namespace TechNova.Models
 {
+    // Domain model for an application user.
+    // Uses DataAnnotations for server-side validation; Role defaults to "Customer".
     public class User
     {
         public int UserId { get; set; }
