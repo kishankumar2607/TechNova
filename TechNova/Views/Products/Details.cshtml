@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = Model?.Name ?? "Product";
     var related = ViewBag.Related as List<Product> ?? new List<Product>();
+    var returnUrl = $"{ViewContext.HttpContext.Request.Path}{ViewContext.HttpContext.Request.QueryString}";
 }
 
 <div class="product-details-page">
@@ -102,9 +103,14 @@
                         <button class="btn button-outline-secondary px-4" type="submit">Add to Cart</button>
                     </form>
 
-                    <button class="btn btn-outline-secondary rounded-circle ms-2" title="Add to Wishlist">
-                        <i class="far fa-heart"></i>
-                    </button>
+                    <form asp-controller="Wishlist" asp-action="Add" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="productId" value="@Model.ProductID" />
+                        <input type="hidden" name="returnUrl" value="@returnUrl" />
+                        <button class="btn btn-outline-secondary rounded-circle ms-2" title="Add to Wishlist" type="submit">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </form>
                 </div>
 
                 <!-- Delivery info boxes -->
@@ -151,9 +157,14 @@
                                     </a>
 
                                     <div class="card-actions">
-                                        <button type="button" class="icon-btn mb-1" title="Add to Wishlist" data-product-id="@product.ProductID">
-                                            <i class="far fa-heart"></i>
-                                        </button>
+                                        <form asp-controller="Wishlist" asp-action="Add" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="productId" value="@product.ProductID" />
+                                            <input type="hidden" name="returnUrl" value="@returnUrl" />
+                                            <button type="submit" class="icon-btn mb-1" title="Add to Wishlist">
+                                                <i class="far fa-heart"></i>
+                                            </button>
+                                        </form>
                                         <a class="icon-btn" title="Quick View"
                                            href="@Url.Action("Details", "Products", new { id = product.ProductID })">
                                             <i class="far fa-eye"></i>
