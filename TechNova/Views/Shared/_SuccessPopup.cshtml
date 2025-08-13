@@ -1,0 +1,90 @@
+﻿@{
+    var success = TempData["Success"] as string ?? TempData["CartMsg"] as string;
+    var error = TempData["Error"] as string;
+}
+
+@if (!string.IsNullOrEmpty(success) || !string.IsNullOrEmpty(error))
+{
+    var isError = !string.IsNullOrEmpty(error);
+    var msg = isError ? error! : success!;
+    <div class="tn-toast-fixed" role="status" aria-live="polite">
+        <div class="tn-toast-card @(isError ? "tn-toast-error" : "tn-toast-success")">
+            <span class="tn-toast-icon">@(!isError ? "✔" : "⚠")</span>
+            <span class="tn-toast-text">@msg</span>
+        </div>
+    </div>
+}
+
+<style>
+    .tn-toast-fixed {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1060;
+        pointer-events: none;
+    }
+
+    .tn-toast-card {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        background: #DB4444;
+        color: #ffffff;
+        border-radius: .6rem;
+        padding: .6rem .9rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,.15);
+        min-width: 240px;
+        max-width: 360px;
+        font-size: .95rem;
+        pointer-events: auto;
+        opacity: 0;
+        transform: translateX(12px);
+        animation: tn-slide-in .35s ease-out forwards, tn-fade-out .5s ease-in 3s forwards;
+    }
+
+    .tn-toast-error {
+        border-left: 4px solid #dc3545;
+    }
+
+    .tn-toast-icon {
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        background: #e9f7ef;
+        color: #1f7a39;
+        font-weight: 700;
+        flex: 0 0 26px;
+    }
+
+    .tn-toast-error .tn-toast-icon {
+        background: #fdeaea;
+        color: #9c1b1b;
+    }
+
+    .tn-toast-text {
+        line-height: 1.25;
+    }
+
+    /* ESCAPED for Razor */
+    @@keyframes tn-slide-in {
+        from {
+            opacity: 0;
+            transform: translateX(12px)
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0)
+        }
+    }
+
+    @@keyframes tn-fade-out {
+        to {
+            opacity: 0;
+            transform: translateX(12px)
+        }
+    }
+</style>
+
