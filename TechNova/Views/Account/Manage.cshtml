@@ -1,0 +1,83 @@
+﻿@model TechNova.Models.AccountSettingsViewModel
+@{
+    ViewData["Title"] = "Manage Account";
+    var pwd = ViewBag.ChangePassword as TechNova.Models.ChangePasswordViewModel
+              ?? new TechNova.Models.ChangePasswordViewModel();
+}
+
+<div class="container my-4">
+    <nav class="small text-muted mb-3">
+        <a class="text-muted text-decoration-none" href="@Url.Action("Index","Home")">Home</a>
+        <span class="mx-1">/</span>
+        <span>Manage Account</span>
+    </nav>
+
+    @if (TempData["FlashSuccess"] is string ok && !string.IsNullOrWhiteSpace(ok))
+    {
+        <div class="alert alert-success border-0 shadow-sm">@ok</div>
+    }
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3">Profile</h5>
+                    <form asp-action="UpdateProfile" asp-controller="Account" method="post" novalidate>
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input asp-for="FullName" class="form-control" />
+                            <span asp-validation-for="FullName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <button class="btn button-style" type="submit">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-3">Change Password</h5>
+                    <form asp-action="ChangePassword" asp-controller="Account" method="post" novalidate>
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Current Password</label>
+                            <input name="CurrentPassword" type="password" class="form-control" />
+                            @Html.ValidationMessage("CurrentPassword", null, new { @class = "text-danger small" })
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">New Password</label>
+                            <input name="NewPassword" type="password" class="form-control" />
+                            @Html.ValidationMessage("NewPassword", null, new { @class = "text-danger small" })
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Confirm New Password</label>
+                            <input name="ConfirmPassword" type="password" class="form-control" />
+                            @Html.ValidationMessage("ConfirmPassword", null, new { @class = "text-danger small" })
+                        </div>
+
+                        <button class="btn button-style" type="submit">Update Password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
