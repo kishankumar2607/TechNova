@@ -19,7 +19,7 @@
     @if (Model == null || !Model.Any())
     {
         <div class="alert alert-light border">
-            Your cart is empty. <a href="@Url.Action("Index","Products")" class="fw-semibold">Return to shop</a>.
+            Your cart is empty. <a href="@Url.Action("Index","Products")" class="fw-bold text-danger">Return to shop</a>.
         </div>
     }
     else
