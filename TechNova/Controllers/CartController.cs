@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TechNova.Helper;
+using TechNova.Helpers;
 using TechNova.Models;
 
 namespace TechNova.Controllers
