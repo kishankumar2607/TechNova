@@ -3,24 +3,41 @@ using System.Text;
 
 namespace TechNova.Helpers
 {
-    // helper to hash passwords with SHA-256 (returns hex string)
-    public class PasswordHelper
+    // SHA-256 hex hashing (legacy) with constant-time verification
+    public static class PasswordHelper
     {
-        // create SHA-256 hash of the given password
+        // Hash a plain password -> lowercase hex SHA-256 (no salt)
         public static string HashPassword(string password)
         {
-            // make a SHA256 object
-            using (var sha256 = SHA256.Create())
+            using var sha256 = SHA256.Create();
+            byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password ?? ""));
+            var sb = new StringBuilder(bytes.Length * 2);
+            foreach (var b in bytes) sb.Append(b.ToString("x2"));
+            return sb.ToString(); // e.g., "e3b0c44298fc1c14..."
+        }
+
+        // Verify plain password against stored SHA-256 hex hash (constant-time)
+        public static bool VerifyPassword(string password, string storedHashHex)
+        {
+            if (string.IsNullOrWhiteSpace(storedHashHex)) return false;
+
+            // recompute hash of the provided password
+            string candidate = HashPassword(password);
+
+            // constant-time compare (avoid timing leaks)
+            if (candidate.Length != storedHashHex.Length) return false;
+
+            int diff = 0;
+            for (int i = 0; i < candidate.Length; i++)
+                diff |= candidate[i] ^ ToLowerHexChar(storedHashHex[i]);
+
+            return diff == 0;
+
+            static char ToLowerHexChar(char c)
             {
-                // get hash bytes from the UTF-8 password
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                // build a hex string from the bytes
-                StringBuilder builder = new StringBuilder();
-                // convert each byte to 2-digit lowercase hex
-                foreach (var b in bytes)
-                    builder.Append(b.ToString("x2"));
-                // return the final hex string
-                return builder.ToString();
+                // normalize to lowercase without allocations
+                if (c >= 'A' && c <= 'F') return (char)(c + 32);
+                return c;
             }
         }
     }
