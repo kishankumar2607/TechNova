@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
-                <div class="card-body text-center">
+                <div class="card-body text-center py-4">
                     <i class="fas fa-user-circle fa-5x text-secondary mb-3"></i>
                     <h5 class="fw-bold">@userName</h5>
                     <p class="text-muted">@userEmail</p>
@@ -33,28 +33,28 @@
                     <div class="border p-3 h-100">
                         <h6 class="fw-bold mb-2">My Orders</h6>
                         <p class="text-muted">View your past and current orders.</p>
-                        <a href="@Url.Action("Orders", "Account")" class="text-danger fw-bold">View Orders</a>
+                        <a href="@Url.Action("MyOrder", "Orders")" class="text-danger fw-bold">View Orders</a>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="border p-3 h-100">
                         <h6 class="fw-bold mb-2">Wishlist</h6>
                         <p class="text-muted">Check your saved items.</p>
-                        <a href="@Url.Action("Wishlist", "Wishlist")" class="text-danger fw-bold">Go to Wishlist</a>
+                        <a href="@Url.Action("Index", "Wishlist")" class="text-danger fw-bold">Go to Wishlist</a>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="border p-3 h-100">
                         <h6 class="fw-bold mb-2">Account Settings</h6>
                         <p class="text-muted">Update your name, email, or password.</p>
-                        <a href="#" class="text-danger fw-bold">Manage Account</a>
+                        <a href="@Url.Action("Manage", "Account")" class="text-danger fw-bold">Manage Account</a>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="border p-3 h-100">
-                        <h6 class="fw-bold mb-2">Shipping Addresses</h6>
-                        <p class="text-muted">Add or modify delivery addresses.</p>
-                        <a href="#" class="text-danger fw-bold">Edit Addresses</a>
+                        <h6 class="fw-bold mb-2">Cart</h6>
+                        <p class="text-muted">Check items in your cart</p>
+                        <a href="@Url.Action("Index", "Cart")" class="text-danger fw-bold">Go to Cart</a>
                     </div>
                 </div>
             </div>
