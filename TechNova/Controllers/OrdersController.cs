@@ -230,5 +230,30 @@ namespace TechNova.Controllers
 
         // helper: clamp quantity between 1 and 10
         private static int Clamp(int q) => Math.Max(1, Math.Min(10, q));
+
+        [HttpGet]
+        public IActionResult MyOrder()
+        {
+            // Require login via your existing cookie scheme
+            if (string.IsNullOrEmpty(Request.Cookies["UserId"]))
+            {
+                var returnUrl = Url.Action(nameof(MyOrder), "Orders");
+                return RedirectToAction("Login", "Account", new { returnUrl });
+            }
+
+            if (!int.TryParse(Request.Cookies["UserId"], out var customerId) || customerId <= 0)
+                return RedirectToAction("Login", "Account");
+
+            // Get orders for this user, newest first, including items + products for display
+            var orders = context.Orders
+                                .AsNoTracking()
+                                .Where(o => o.CustomerID == customerId)
+                                .Include(o => o.Items)
+                                .ThenInclude(i => i.Product)
+                                .OrderByDescending(o => o.OrderID)
+                                .ToList();
+
+            return View(orders);
+        }
     }
 }
