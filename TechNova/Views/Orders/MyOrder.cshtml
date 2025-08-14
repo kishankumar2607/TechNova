@@ -1,0 +1,117 @@
+﻿@model List<TechNova.Models.Order>
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<div class="container my-4">
+    <nav class="small text-muted mb-3">
+        <a class="text-muted text-decoration-none" href="@Url.Action("Index","Home")">Home</a>
+        <span class="mx-1">/</span>
+        <span>My Orders</span>
+    </nav>
+
+    <h3 class="fw-bold mb-3">My Orders</h3>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-light border">
+            You haven’t placed any orders yet.
+            <a class="fw-semibold" href="@Url.Action("Index","Products")">Start shopping</a>.
+        </div>
+    }
+    else
+    {
+        <div class="vstack gap-3">
+            @foreach (var o in Model)
+            {
+                // Derive a simple status from payment method (no Order.Status field exists)
+                // Bank = just placed; COD = processing
+                var status = o.PaymentID == 1 ? "Placed" : "Processing";
+                var step = o.PaymentID == 1 ? 1 : 2; // 1..4 => Placed, Processing, Shipped, Delivered
+
+                var paymentLabel = o.PaymentID == 1 ? "Bank" :
+                o.PaymentID == 2 ? "Cash on delivery" :
+                $"Method #{o.PaymentID}";
+
+                <div class="card shadow-sm border-0 order-card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                            <div class="fw-semibold me-2">Order <span class="text-muted">#@o.OrderID</span></div>
+
+                            <span class="order-status-pill @(status.ToLower())">@status</span>
+
+                            <span class="text-muted small ms-2">Payment: @paymentLabel</span>
+
+                            <div class="ms-auto d-flex align-items-center gap-2">
+                                <div class="fw-bold fs-6">@o.TotalAmount.ToString("C")</div>
+                            </div>
+                        </div>
+
+                        <div class="order-steps mb-3">
+                            <div class="step @(step >= 1 ? "is-done" : "")">
+                                <div class="dot"></div><div class="label">Placed</div>
+                            </div>
+                            <div class="bar @(step >= 2 ? "is-done" : "")"></div>
+                            <div class="step @(step >= 2 ? "is-done" : "")">
+                                <div class="dot"></div><div class="label">Processing</div>
+                            </div>
+                            <div class="bar @(step >= 3 ? "is-done" : "")"></div>
+                            <div class="step @(step >= 3 ? "is-done" : "")">
+                                <div class="dot"></div><div class="label">Shipped</div>
+                            </div>
+                            <div class="bar @(step >= 4 ? "is-done" : "")"></div>
+                            <div class="step @(step >= 4 ? "is-done" : "")">
+                                <div class="dot"></div><div class="label">Delivered</div>
+                            </div>
+                        </div>
+
+                        @if (o.Items != null && o.Items.Any())
+                        {
+                            <ul class="list-unstyled mb-0 small">
+                                @foreach (var it in o.Items.Take(3))
+                                {
+                                    var name = it.Product?.Name ?? $"Product #{it.ProductID}";
+                                    var img = it.Product?.ImageURL ?? "/images/placeholder.png";
+                                    <li class="d-flex align-items-center py-1 border-bottom">
+                                        <img src="@img" alt="" class="me-2 rounded"
+                                             style="width:40px;height:40px;object-fit:cover" />
+                                        <span class="flex-grow-1">@name</span>
+                                        <span class="text-muted">× @it.Quantity</span>
+                                    </li>
+                                }
+
+                                @if (o.Items.Count > 3)
+                                {
+                                    <li class="pt-2">
+                                        <details>
+                                            <summary class="text-muted" style="cursor:pointer">
+                                                Show @((o.Items.Count - 3)) more…
+                                            </summary>
+                                            <ul class="list-unstyled mt-2">
+                                                @foreach (var it in o.Items.Skip(3))
+                                                {
+                                                    var name = it.Product?.Name ?? $"Product #{it.ProductID}";
+                                                    var img = it.Product?.ImageURL ?? "/images/placeholder.png";
+                                                    <li class="d-flex align-items-center py-1">
+                                                        <img src="@img" alt="" class="me-2 rounded"
+                                                             style="width:32px;height:32px;object-fit:cover" />
+                                                        <span class="flex-grow-1">@name</span>
+                                                        <span class="text-muted">× @it.Quantity</span>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </details>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <div class="text-muted small">No items</div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
