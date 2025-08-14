@@ -744,6 +744,88 @@
     border-top-right-radius: .5rem;
 }
 
+.order-card .card-body {
+    padding: 1rem 1.25rem;
+}
+
+.order-status-pill {
+    display: inline-block;
+    padding: .25rem .6rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: .8rem;
+    border: 1px solid transparent;
+}
+
+    .order-status-pill.placed {
+        background: #eef6ff;
+        color: #0b63c5;
+        border-color: #cfe6ff;
+    }
+
+    .order-status-pill.processing {
+        background: #eaf7ef;
+        color: #1f7a39;
+        border-color: #cfeedd;
+    }
+
+    .order-status-pill.shipped {
+        background: #fff7e6;
+        color: #b26b00;
+        border-color: #ffe6b8;
+    }
+
+    .order-status-pill.delivered {
+        background: #f1f1f1;
+        color: #555;
+        border-color: #e5e5e5;
+    }
+
+.order-steps {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+    .order-steps .step {
+        display: flex;
+        align-items: center;
+        gap: .35rem;
+    }
+
+    .order-steps .label {
+        font-size: .8rem;
+        color: #6c757d;
+    }
+
+    .order-steps .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: #d0d6dc;
+        box-shadow: 0 0 0 2px #eef2f6 inset;
+    }
+
+    .order-steps .bar {
+        flex: 1 1 auto;
+        height: 3px;
+        background: #e8edf2;
+        border-radius: 3px;
+    }
+
+    .order-steps .is-done .dot {
+        background: #0d6efd;
+        box-shadow: none;
+    }
+
+    .order-steps .is-done + .label, .order-steps .step.is-done .label {
+        color: #0d6efd;
+    }
+
+    .order-steps .bar.is-done {
+        background: #0d6efd;
+    }
+
 @media (max-width: 991.98px) {
     .cart-view .cart-table {
         display: none;
